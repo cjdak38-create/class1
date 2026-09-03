@@ -119,7 +119,7 @@
                                 입장 대기 중
                             </span>
                         </div>
-                        <p class="text-xs text-slate-500">재적인원 29명 · 고교선호도조사 · 소통 · 진학자료 · 역할 · 봉사 · 캘린더</p>
+                        <p class="text-xs text-slate-500">재적인원 29명 · 공지수정/삭제 · 고교선호도조사 · 소통 · 진학자료 · 역할 · 봉사 · 캘린더</p>
                     </div>
                 </div>
                 
@@ -175,28 +175,48 @@
 
     <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1">
 
-        <!-- 1. 전체 공지 탭 -->
-        <section id="tab-notices" class="tab-pane space-y-6">
+        <!-- 1. [REVISED] 전체 공지 탭 (수정/삭제/필터링 기능 탑재) -->
+        <section id="tab-notices" class="tab-pane space-y-5">
             <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">학급 전체 공지사항</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">307 총 29명 학생과 학부모에게 전달되는 필수 전달사항입니다.</p>
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-lg font-bold text-slate-800">학급 전체 공지사항</h2>
+                        <span class="text-xs px-2.5 py-0.5 bg-indigo-50 text-indigo-700 rounded-full font-bold border border-indigo-200">
+                            언제든 자유롭게 수정·삭제 가능
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">307 총 29명 학생과 학부모에게 전달되는 필수 전달사항입니다. 각 공지 카드의 <strong>[수정]</strong> 또는 <strong>[삭제]</strong> 버튼을 이용해 실시간으로 내용을 변경할 수 있습니다.</p>
                 </div>
                 <div class="flex gap-2 w-full md:w-auto">
                     <button onclick="openNoticeModal()" class="w-full md:w-auto inline-flex items-center justify-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-xs transition-colors">
-                        새 공지 작성
+                        + 새 공지 작성
                     </button>
                 </div>
             </div>
 
+            <!-- 공지 검색 및 분류 필터 바 -->
+            <div class="flex flex-col sm:flex-row gap-2 justify-between items-start sm:items-center bg-white p-3 rounded-xl border border-slate-200">
+                <div class="flex flex-wrap gap-1.5 items-center">
+                    <span class="text-xs font-bold text-slate-400 mr-1.5">분류:</span>
+                    <button onclick="filterNotices('전체')" class="notice-filter-btn active px-3 py-1 text-xs rounded-lg font-bold bg-slate-800 text-white">전체 보기</button>
+                    <button onclick="filterNotices('중요')" class="notice-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">🚨 중요</button>
+                    <button onclick="filterNotices('가정통신')" class="notice-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">📄 가정통신</button>
+                    <button onclick="filterNotices('준비물')" class="notice-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">🎒 준비물</button>
+                    <button onclick="filterNotices('행사')" class="notice-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">🎉 행사</button>
+                </div>
+                <div class="w-full sm:w-64">
+                    <input type="text" id="notice-search-input" onkeyup="renderNotices()" placeholder="공지 제목 또는 내용 검색..." class="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                </div>
+            </div>
+
+            <!-- 공지 카드 그리드 -->
             <div id="notice-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- 동적 렌더링 -->
             </div>
         </section>
 
-        <!-- 2. [CORE REVISED] 고등학교 선호도 조사 탭 (바로 보이고 언제든 수정 가능) -->
+        <!-- 2. 고등학교 선호도 조사 탭 (바로 보이고 언제든 수정 가능) -->
         <section id="tab-highschool-survey" class="tab-pane hidden space-y-6">
-            <!-- 상단 현황 & 퀵 액션 카드 -->
             <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                 <div>
                     <div class="flex items-center gap-2">
@@ -210,7 +230,6 @@
                     </p>
                 </div>
 
-                <!-- 내 희망 고교 즉시 변경 버튼 (로그인 사용자용) -->
                 <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
                     <button onclick="promptEditMyHighSchool()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 transition-all">
                         <span>✏️</span> 내 희망 고등학교 변경하기
@@ -221,7 +240,6 @@
                 </div>
             </div>
 
-            <!-- 실시간 학교별 지원 현황 요약 통계 바 -->
             <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
@@ -234,7 +252,6 @@
                 </div>
             </div>
 
-            <!-- 29명 전체 고등학교 선호도 테이블 & 빠른 수정부 -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
                 <div class="p-4 bg-slate-50/70 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <div class="flex items-center gap-2">
@@ -299,7 +316,6 @@
                 </button>
             </div>
 
-            <!-- 유형별 필터 바 -->
             <div class="flex flex-wrap gap-1.5 items-center bg-white p-3 rounded-xl border border-slate-200">
                 <span class="text-xs font-bold text-slate-400 mr-2">고교 구분:</span>
                 <button onclick="filterHighschool('전체')" class="hs-filter-btn active px-3 py-1.5 text-xs rounded-lg font-bold bg-indigo-600 text-white">전체 보기</button>
@@ -309,7 +325,6 @@
                 <button onclick="filterHighschool('설명회/입학요강')" class="hs-filter-btn px-3 py-1.5 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">설명회/가이드</button>
             </div>
 
-            <!-- 자료 카드 그리드 -->
             <div id="highschool-materials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <!-- 동적 렌더링 -->
             </div>
@@ -421,7 +436,6 @@
         <!-- 8. 우리반 캘린더 & 상담 탭 -->
         <section id="tab-calendar" class="tab-pane hidden space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- 왼쪽 달력 -->
                 <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
@@ -454,7 +468,6 @@
                     </div>
                 </div>
 
-                <!-- 오른쪽 상담 신청 / 목록 -->
                 <div class="space-y-4">
                     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
                         <h3 class="font-bold text-slate-800 text-sm mb-3">📅 상담 / 일정 예약 등록</h3>
@@ -501,6 +514,81 @@
         </section>
     </main>
 
+    <!-- [MODAL] 새 공지사항 등록 모달 -->
+    <div id="notice-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs hidden p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-100">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                <h3 class="text-base font-bold text-slate-800">📢 새 학급 공지사항 등록</h3>
+                <button onclick="closeModal('notice-modal')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+            </div>
+            <form onsubmit="handleCreateNotice(event)" class="mt-4 space-y-3.5 text-xs">
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">공지 구분</label>
+                    <select id="new-notice-category" class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <option value="중요">🚨 [필독] 중요 안내</option>
+                        <option value="준비물">🎒 준비물 / 과제</option>
+                        <option value="가정통신">📄 가정통신문 / 서식</option>
+                        <option value="행사">🎉 학급 행사 / 창체</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">제목</label>
+                    <input type="text" id="new-notice-title" required placeholder="예: 3월 첫 주 1인 1역할 활동 계획서 제출 안내" class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">공지 내용</label>
+                    <textarea id="new-notice-content" required rows="4" placeholder="학생 및 학부모님께 공지할 내용을 작성하세요..." class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('notice-modal')" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg">취소</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg">공지 등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- [MODAL] 공지사항 수정 모달 (NEW) -->
+    <div id="edit-notice-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs hidden p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-100">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <h3 class="text-base font-bold text-slate-800">✏️ 학급 공지사항 수정</h3>
+                    <span class="text-[11px] px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded font-bold">실시간 반영</span>
+                </div>
+                <button onclick="closeModal('edit-notice-modal')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+            </div>
+            <form onsubmit="handleUpdateNotice(event)" class="mt-4 space-y-3.5 text-xs">
+                <input type="hidden" id="edit-notice-id">
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">공지 구분 변경</label>
+                    <select id="edit-notice-category" class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <option value="중요">🚨 [필독] 중요 안내</option>
+                        <option value="준비물">🎒 준비물 / 과제</option>
+                        <option value="가정통신">📄 가정통신문 / 서식</option>
+                        <option value="행사">🎉 학급 행사 / 창체</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">공지 제목</label>
+                    <input type="text" id="edit-notice-title" required class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-slate-800 text-sm">
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">공지 세부 내용</label>
+                    <textarea id="edit-notice-content" required rows="5" class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"></textarea>
+                </div>
+                <div class="flex justify-between items-center pt-2">
+                    <button type="button" onclick="deleteNoticeFromEditModal()" class="px-3.5 py-2 bg-rose-50 text-rose-600 hover:bg-rose-100 font-bold rounded-lg border border-rose-200 transition-colors">
+                        🗑️ 이 공지 삭제
+                    </button>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="closeModal('edit-notice-modal')" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg">취소</button>
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg">수정 완료</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- [MODAL] 희망 고등학교 직접 수정 모달 (학생 본인 / 담임 공용) -->
     <div id="edit-hs-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs hidden p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-100">
@@ -520,14 +608,14 @@
                 <div>
                     <label class="block text-[11px] text-slate-500 mb-1.5 font-medium">자주 선택하는 고등학교:</label>
                     <div class="flex flex-wrap gap-1">
-                        <button type="button" onclick="setPresetHsModal('백석고')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">백석고</button>
-                        <button type="button" onclick="setPresetHsModal('아라고')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">아라고</button>
-                        <button type="button" onclick="setPresetHsModal('마전고')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">마전고</button>
-                        <button type="button" onclick="setPresetHsModal('이음고')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">이음고</button>
-                        <button type="button" onclick="setPresetHsModal('문곡고')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">문곡고</button>
-                        <button type="button" onclick="setPresetHsModal('원당고')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">원당고</button>
+                        <button type="button" onclick="setPresetHsModal('백석')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">백석</button>
+                        <button type="button" onclick="setPresetHsModal('아라')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">아라</button>
+                        <button type="button" onclick="setPresetHsModal('마전')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">마전</button>
+                        <button type="button" onclick="setPresetHsModal('이음')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">이음</button>
+                        <button type="button" onclick="setPresetHsModal('문곡')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">문곡</button>
+                        <button type="button" onclick="setPresetHsModal('원당')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">원당</button>
                         <button type="button" onclick="setPresetHsModal('미추홀외고')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">미추홀외고</button>
-                        <button type="button" onclick="setPresetHsModal('인천과학고')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">인과고</button>
+                        <button type="button" onclick="setPresetHsModal('인과고')" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded text-[11px] font-medium border border-slate-200">인과고</button>
                     </div>
                 </div>
 
@@ -656,39 +744,6 @@
         </div>
     </div>
 
-    <!-- [MODAL] 공지 모달 -->
-    <div id="notice-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs hidden p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-100">
-            <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-                <h3 class="text-base font-bold text-slate-800">📢 새 학급 공지사항 등록</h3>
-                <button onclick="closeModal('notice-modal')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
-            </div>
-            <form onsubmit="handleCreateNotice(event)" class="mt-4 space-y-3.5 text-xs">
-                <div>
-                    <label class="block font-medium text-slate-700 mb-1">공지 구분</label>
-                    <select id="new-notice-category" class="w-full p-2 border border-slate-200 rounded-lg">
-                        <option value="중요">🚨 [필독] 중요 안내</option>
-                        <option value="준비물">🎒 준비물 / 과제</option>
-                        <option value="가정통신">📄 가정통신문 / 서식</option>
-                        <option value="행사">🎉 학급 행사 / 창체</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block font-medium text-slate-700 mb-1">제목</label>
-                    <input type="text" id="new-notice-title" required placeholder="예: 3월 첫 주 1인 1역할 활동 계획서 제출 안내" class="w-full p-2 border border-slate-200 rounded-lg">
-                </div>
-                <div>
-                    <label class="block font-medium text-slate-700 mb-1">공지 내용</label>
-                    <textarea id="new-notice-content" required rows="4" placeholder="학생 및 학부모님께 공지할 내용을 작성하세요..." class="w-full p-2 border border-slate-200 rounded-lg"></textarea>
-                </div>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeModal('notice-modal')" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg">취소</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg">공지 게시</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- [MODAL] 학생 추가 모달 -->
     <div id="student-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs hidden p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100">
@@ -779,7 +834,7 @@
         ];
 
         // 29명 학생 객체 빌드
-        const fullStudents = rawStudentRoster.map((s, idx) => {
+        const fullStudents = rawStudentRoster.map((s) => {
             const numStr = String(s.no).padStart(2, '0');
             const studentId = `307${numStr}`;
             
@@ -805,7 +860,7 @@
                 studentId: studentId,
                 no: s.no,
                 name: s.name,
-                school: s.school, // 희망 고등학교
+                school: s.school,
                 avatar: `https://images.unsplash.com/photo-${1534528741775 + s.no * 73}?w=200&auto=format&fit=crop&q=80`,
                 tags: s.tags,
                 traitsDesc: s.memo,
@@ -822,6 +877,7 @@
             },
             isLoggedIn: false,
             activeTab: 'notices',
+            noticeFilterCategory: '전체',
             students: fullStudents,
             notices: [
                 {
@@ -852,7 +908,6 @@
                     readCount: 24
                 }
             ],
-            // 고등학교 진학 자료실 데이터
             highSchoolMaterials: [
                 {
                     id: 1,
@@ -903,7 +958,6 @@
                     fileSize: '4.2 MB'
                 }
             ],
-            // 29명 기반 1인 1역할 분담 데이터
             roles: [
                 { id: 1, title: '학급 서기 및 회의록 작성', studentId: '30701', studentName: '강유진', desc: '조회·종례 전달사항 메모 및 학급 회의 결정사항 게시', cycle: '매일/주간', status: '활동중' },
                 { id: 2, title: '학급 부반장 및 행사 보좌', studentId: '30714', studentName: '조시연', desc: '학급 행사 준비 보조 및 반장 부재 시 학급 총괄', cycle: '상시', status: '활동중' },
@@ -914,7 +968,6 @@
                 { id: 7, title: '학급 문고 및 도서 대출 관리', studentId: '30725', studentName: '이윤후', desc: '학급 뒷편 문고 꽂이 정돈 및 학급 추천도서 주간 갱신', cycle: '종례 후', status: '활동중' },
                 { id: 8, title: '교실 소등 및 창문 최종 단속', studentId: '30729', studentName: '남정우', desc: '하교 전 전등 끄기, 멀티탭 전원 차단, 창문 잠금 확인', cycle: '하교 시', status: '활동중' }
             ],
-            // 29명 기반 봉사활동 내역 데이터
             volunteers: [
                 { id: 1, date: '2026-03-02', studentId: '30701', studentName: '강유진', title: '신학기 29명 교과서 배부 및 교실 세팅', place: '본관 3층 307교실', hours: 2, status: '승인완료' },
                 { id: 2, date: '2026-03-02', studentId: '30715', studentName: 'ARTYOM', title: '교실 사물함 이름표 부착 및 환경정돈', place: '307교실 복도', hours: 2, status: '승인완료' },
@@ -923,7 +976,6 @@
                 { id: 5, date: '2026-03-04', studentId: '30725', studentName: '이윤후', title: '학교 도서관 신간 도서 바코드 라벨 부착', place: '2층 글빛 도서관', hours: 3, status: '승인완료' },
                 { id: 6, date: '2026-03-04', studentId: '30716', studentName: '김성현', title: '멀티미디어실 PC 정비 보조 봉사', place: '3층 컴퓨터실', hours: 2, status: '승인완료' }
             ],
-            // 캘린더 스케줄
             schedules: [
                 { id: 1, date: '2026-03-10', time: '15:30', student: '강유진 (30701)', type: '학부모상담', memo: '백석고 지망 및 고교 학점제 대비 과목 선택' },
                 { id: 2, date: '2026-03-11', time: '16:00', student: 'ARTYOM (30715)', type: '학생상담', memo: '아라고 진학 준비 및 한국어 교육 지원' },
@@ -932,7 +984,7 @@
             ]
         };
 
-        // 로그인 처리
+        // 로그인 로직
         function handleLogin(e) {
             e.preventDefault();
             const studentId = document.getElementById('login-student-id').value.trim();
@@ -992,6 +1044,7 @@
             if (targetPane) targetPane.classList.remove('hidden');
             if (targetBtn) targetBtn.classList.add('active');
 
+            if (tabId === 'notices') renderNotices();
             if (tabId === 'calendar') renderCalendar();
             if (tabId === 'volunteer') renderVolunteerTab();
             if (tabId === 'roles') renderRoles();
@@ -1023,14 +1076,170 @@
         }
 
         // ==========================================
-        // 2. [CORE REVISED] 고등학교 선호도 조사 로직 (29명 바로 보이고 언제든 수정)
+        // 1. [UPGRADED] 전체 공지사항 렌더링 / 수정 / 삭제 로직
+        // ==========================================
+        function renderNotices() {
+            const container = document.getElementById('notice-cards-container');
+            container.innerHTML = '';
+
+            const badgeStyles = {
+                '중요': 'bg-rose-100 text-rose-700 border-rose-200',
+                '준비물': 'bg-amber-100 text-amber-700 border-amber-200',
+                '가정통신': 'bg-indigo-100 text-indigo-700 border-indigo-200',
+                '행사': 'bg-emerald-100 text-emerald-700 border-emerald-200'
+            };
+
+            const searchInput = (document.getElementById('notice-search-input')?.value || '').toLowerCase();
+
+            let list = state.notices;
+            if (state.noticeFilterCategory !== '전체') {
+                list = list.filter(n => n.category === state.noticeFilterCategory);
+            }
+            if (searchInput) {
+                list = list.filter(n => n.title.toLowerCase().includes(searchInput) || n.content.toLowerCase().includes(searchInput));
+            }
+
+            document.getElementById('notice-badge').textContent = state.notices.length;
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full bg-white p-12 rounded-2xl border border-dashed border-slate-300 text-center text-slate-400 text-xs">
+                        등록된 공지사항이 없습니다. 새 공지를 등록해 보세요.
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach(n => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col justify-between hover:border-indigo-300 hover:shadow-md transition-all";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-2.5">
+                            <span class="px-2.5 py-0.5 text-xs font-bold rounded-md border ${badgeStyles[n.category] || 'bg-slate-100 text-slate-700'}">
+                                ${n.category}
+                            </span>
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-xs text-slate-400 font-medium">${n.date}</span>
+                            </div>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-800 mb-2 leading-snug">${n.title}</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed whitespace-pre-line">${n.content}</p>
+                    </div>
+
+                    <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-1 text-[11px] text-slate-400">
+                            <span class="font-medium text-slate-600">작성: ${n.author}</span>
+                        </div>
+                        <!-- 수정 및 삭제 액션 버튼 -->
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="openEditNoticeModal(${n.id})" class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold rounded-lg transition-colors flex items-center gap-1 text-xs">
+                                <span>✏️</span> 수정
+                            </button>
+                            <button onclick="deleteNotice(${n.id})" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded-lg transition-colors flex items-center gap-1 text-xs">
+                                <span>🗑️</span> 삭제
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterNotices(category) {
+            state.noticeFilterCategory = category;
+            document.querySelectorAll('.notice-filter-btn').forEach(btn => {
+                if (btn.innerText.includes(category)) {
+                    btn.className = "notice-filter-btn active px-3 py-1 text-xs rounded-lg font-bold bg-slate-800 text-white";
+                } else {
+                    btn.className = "notice-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200";
+                }
+            });
+            renderNotices();
+        }
+
+        function openNoticeModal() {
+            openModal('notice-modal');
+        }
+
+        function handleCreateNotice(e) {
+            e.preventDefault();
+            const cat = document.getElementById('new-notice-category').value;
+            const title = document.getElementById('new-notice-title').value.trim();
+            const content = document.getElementById('new-notice-content').value.trim();
+
+            const newNotice = {
+                id: Date.now(),
+                category: cat,
+                title: title,
+                content: content,
+                date: new Date().toISOString().split('T')[0],
+                author: state.currentUser.name || '담임교사',
+                readCount: 1
+            };
+
+            state.notices.unshift(newNotice);
+            renderNotices();
+            closeModal('notice-modal');
+            e.target.reset();
+            showToast('새 공지사항이 등록되었습니다.', 'success');
+        }
+
+        // 공지사항 수정 모달 열기
+        function openEditNoticeModal(noticeId) {
+            const notice = state.notices.find(n => n.id === noticeId);
+            if (!notice) return;
+
+            document.getElementById('edit-notice-id').value = notice.id;
+            document.getElementById('edit-notice-category').value = notice.category;
+            document.getElementById('edit-notice-title').value = notice.title;
+            document.getElementById('edit-notice-content').value = notice.content;
+
+            openModal('edit-notice-modal');
+        }
+
+        // 공지사항 수정 처리
+        function handleUpdateNotice(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('edit-notice-id').value);
+            const notice = state.notices.find(n => n.id === id);
+
+            if (notice) {
+                notice.category = document.getElementById('edit-notice-category').value;
+                notice.title = document.getElementById('edit-notice-title').value.trim();
+                notice.content = document.getElementById('edit-notice-content').value.trim();
+
+                renderNotices();
+                closeModal('edit-notice-modal');
+                showToast(`공지사항 "${notice.title}"이(가) 수정되었습니다.`, 'success');
+            }
+        }
+
+        // 공지사항 단독 삭제
+        function deleteNotice(id) {
+            const target = state.notices.find(n => n.id === id);
+            const title = target ? target.title : '선택한 공지';
+
+            state.notices = state.notices.filter(n => n.id !== id);
+            renderNotices();
+            showToast(`공지사항 "${title}"이(가) 삭제되었습니다.`, 'info');
+        }
+
+        // 수정 모달 내 삭제 버튼
+        function deleteNoticeFromEditModal() {
+            const id = parseInt(document.getElementById('edit-notice-id').value);
+            closeModal('edit-notice-modal');
+            deleteNotice(id);
+        }
+
+        // ==========================================
+        // 2. 고등학교 선호도 조사 로직 (29명 바로 보이고 언제든 수정)
         // ==========================================
         function renderHighSchoolSurvey() {
             renderSurveyStats();
             renderSurveyTable();
         }
 
-        // 통계 집계 배지
         function renderSurveyStats() {
             const container = document.getElementById('survey-stats-container');
             container.innerHTML = '';
@@ -1038,7 +1247,6 @@
             const counts = {};
             state.students.forEach(s => {
                 let school = (s.school || '미정').trim();
-                // 동일 계열 통일 표시 보조
                 if (school === '문곡고') school = '문곡';
                 if (school === '아라고') school = '아라';
                 if (school === '마전고등학교') school = '마전';
@@ -1046,7 +1254,6 @@
                 counts[school] = (counts[school] || 0) + 1;
             });
 
-            // 내림차순 정렬
             const sortedSchools = Object.entries(counts).sort((a, b) => b[1] - a[1]);
 
             sortedSchools.forEach(([school, count]) => {
@@ -1067,7 +1274,6 @@
             });
         }
 
-        // 29명 테이블 렌더링
         function renderSurveyTable() {
             const tbody = document.getElementById('survey-table-body');
             tbody.innerHTML = '';
@@ -1127,7 +1333,6 @@
             });
         }
 
-        // 인라인 입력으로 수정
         function updateStudentHighSchool(studentId, newSchool) {
             const student = state.students.find(s => s.id === studentId);
             if (student) {
@@ -1142,7 +1347,6 @@
             }
         }
 
-        // 빠른 버튼으로 학교 설정
         function quickSetSchool(studentId, schoolName) {
             const student = state.students.find(s => s.id === studentId);
             if (student) {
@@ -1154,7 +1358,6 @@
             }
         }
 
-        // 내 희망 고등학교 변경 퀵 액션
         function promptEditMyHighSchool() {
             const currentStudent = state.students.find(s => s.studentId === state.currentUser.studentId || s.name === state.currentUser.name);
             if (currentStudent) {
@@ -1164,7 +1367,6 @@
             }
         }
 
-        // 수정 모달 열기
         function openEditHsModal(studentId) {
             const student = state.students.find(s => s.id === studentId);
             if (!student) return;
@@ -1187,7 +1389,6 @@
             renderHighSchoolSurvey();
         }
 
-        // CSV 다운로드 기능
         function exportToCsv() {
             let csvContent = "data:text/csv;charset=utf-8,\uFEFF번호,학번,이름,희망고등학교\n";
             state.students.forEach(s => {
@@ -1201,71 +1402,6 @@
             link.click();
             document.body.removeChild(link);
             showToast("선호도 조사 명단 CSV 파일이 다운로드되었습니다.", "success");
-        }
-
-        // ==========================================
-        // 1. 전체 공지 렌더링
-        // ==========================================
-        function renderNotices() {
-            const container = document.getElementById('notice-cards-container');
-            container.innerHTML = '';
-
-            const badgeStyles = {
-                '중요': 'bg-rose-100 text-rose-700 border-rose-200',
-                '준비물': 'bg-amber-100 text-amber-700 border-amber-200',
-                '가정통신': 'bg-indigo-100 text-indigo-700 border-indigo-200',
-                '행사': 'bg-emerald-100 text-emerald-700 border-emerald-200'
-            };
-
-            state.notices.forEach(n => {
-                const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between hover:border-indigo-300 transition-all";
-                card.innerHTML = `
-                    <div>
-                        <div class="flex items-center justify-between gap-2 mb-2.5">
-                            <span class="px-2.5 py-0.5 text-xs font-bold rounded-md border ${badgeStyles[n.category] || 'bg-slate-100 text-slate-700'}">
-                                ${n.category}
-                            </span>
-                            <span class="text-xs text-slate-400 font-medium">${n.date}</span>
-                        </div>
-                        <h3 class="text-base font-bold text-slate-800 mb-2 leading-snug">${n.title}</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed whitespace-pre-line">${n.content}</p>
-                    </div>
-                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                        <span class="font-medium text-slate-600">작성자: ${n.author}</span>
-                        <span>👀 확인 ${n.readCount}/29명</span>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-            document.getElementById('notice-badge').textContent = state.notices.length;
-        }
-
-        function openNoticeModal() {
-            openModal('notice-modal');
-        }
-
-        function handleCreateNotice(e) {
-            e.preventDefault();
-            const cat = document.getElementById('new-notice-category').value;
-            const title = document.getElementById('new-notice-title').value.trim();
-            const content = document.getElementById('new-notice-content').value.trim();
-
-            const newNotice = {
-                id: Date.now(),
-                category: cat,
-                title: title,
-                content: content,
-                date: '2026-03-04',
-                author: state.currentUser.name || '담임교사',
-                readCount: 1
-            };
-
-            state.notices.unshift(newNotice);
-            renderNotices();
-            closeModal('notice-modal');
-            e.target.reset();
-            showToast('새 공지사항이 게시되었습니다.', 'success');
         }
 
         // ==========================================
