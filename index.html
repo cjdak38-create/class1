@@ -98,7 +98,7 @@
                     <button onclick="quickLogin('30714', '조시연', 'student')" class="px-2 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded-lg border border-indigo-200 text-center truncate">
                         14번 조시연
                     </button>
-                    <button onclick="openTeacherAuthModal()" class="px-2 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg text-center truncate flex items-center justify-center gap-1">
+                    <button onclick="openTeacherAuthModal()" class="px-2 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg text-center truncate flex items-center justify-center gap-1 shadow-xs">
                         <span>🔒</span> 담임교사
                     </button>
                 </div>
@@ -111,9 +111,9 @@
         </div>
     </div>
 
-    <!-- [TEACHER AUTH MODAL] 담임교사 비밀번호 인증 모달 -->
-    <div id="teacher-auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs hidden p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-100">
+    <!-- [TEACHER AUTH MODAL] 담임교사 비밀번호 인증 모달 (z-[70]으로 최상단 노출 보장) -->
+    <div id="teacher-auth-modal" class="fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 relative">
             <div class="text-center mb-4">
                 <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-2 text-2xl font-black shadow-xs">
                     👨‍🏫
@@ -159,8 +159,11 @@
                             <span id="header-user-badge" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
                                 입장 대기 중
                             </span>
+                            <span id="sync-status-badge" class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                ☁️ 실시간 누적 연동
+                            </span>
                         </div>
-                        <p class="text-xs text-slate-500">재적인원 29명 · 봉사시간 · 고교선호도(담임수정권한) · 소통칸 · 진학자료 · 역할 · 캘린더</p>
+                        <p class="text-xs text-slate-500">패들렛 스타일 실시간 누적 저장 · 봉사시간 · 고교선호도(담임수정권한) · 소통칸 · 액자배너 · 역할 · 캘린더</p>
                     </div>
                 </div>
                 
@@ -221,7 +224,6 @@
 
     <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1">
 
-        <!-- [액자 배너 상단 표시 영역] -->
         <div id="top-tab-frame-banner" class="mb-6 hidden"></div>
 
         <!-- 1. 봉사시간 관리 탭 -->
@@ -235,7 +237,7 @@
                         <h2 class="text-lg font-bold text-slate-800">💖 307 학생별 봉사시간 누적 관리부 (총 29명)</h2>
                     </div>
                     <p class="text-xs text-slate-500 mt-1">
-                        ※ 아래 표에서 각 학생의 시간을 <strong>직접 클릭하여 타이핑하거나 [+1h], [+2h] 버튼으로 언제든 수정</strong>할 수 있습니다. 변경 시 학급 통계에 즉시 반영됩니다.
+                        ※ 수정 시 패들렛처럼 실시간 클라우드에 자동 저장됩니다. 숫자를 직접 타이핑하거나 [+1h], [+2h] 버튼을 클릭하세요.
                     </p>
                 </div>
                 <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
@@ -274,7 +276,7 @@
                 <div class="p-4 bg-slate-50/70 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-bold text-slate-700">학생별 봉사시간 현황부</span>
-                        <span class="text-[11px] bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-bold border border-indigo-200">29명 전체 인라인 수정 가능</span>
+                        <span class="text-[11px] bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-bold border border-indigo-200">실시간 자동 누적 보존</span>
                     </div>
                     <div class="w-full sm:w-72">
                         <input type="text" id="volunteer-search-input" onkeyup="renderVolunteerTab()" placeholder="학생 이름, 번호, 시간 검색..." class="w-full text-xs p-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500">
@@ -299,7 +301,7 @@
             </div>
         </section>
 
-        <!-- 2. [CORE REVISED] 고등학교 선호도 조사 탭 (담임교사만 수정 가능) -->
+        <!-- 2. 고등학교 선호도 조사 탭 (담임교사만 수정 가능) -->
         <section id="tab-highschool-survey" class="tab-pane hidden space-y-6">
             <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                 <div>
@@ -308,13 +310,9 @@
                             2026 고입 1차 현황
                         </span>
                         <h2 class="text-lg font-bold text-slate-800">🏫 307 진학 희망 고등학교 선호도 조사 (전원 29명)</h2>
-                        <span id="survey-auth-status-badge" class="text-xs px-2.5 py-0.5 rounded-full font-bold">
-                            <!-- JS로 권한 상태 표시 -->
-                        </span>
+                        <span id="survey-auth-status-badge" class="text-xs px-2.5 py-0.5 rounded-full font-bold"></span>
                     </div>
-                    <p id="survey-auth-desc" class="text-xs text-slate-500 mt-1">
-                        <!-- JS로 권한별 안내 문구 표시 -->
-                    </p>
+                    <p id="survey-auth-desc" class="text-xs text-slate-500 mt-1"></p>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
@@ -376,7 +374,7 @@
                             학생 열람 모드
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500 mt-0.5">307 총 29명 학생과 학부모에게 전달되는 필수 전달사항입니다. (공지 작성/수정/삭제는 담임선생님 전용 기능입니다.)</p>
+                    <p class="text-xs text-slate-500 mt-0.5">선생님께서 공지를 삭제하면 패들렛처럼 클라우드에서 즉시 영구 삭제되어 모든 접속자에게 반영됩니다.</p>
                 </div>
                 <div id="notice-create-btn-wrapper" class="hidden">
                     <button onclick="openNoticeModal()" class="w-full md:w-auto inline-flex items-center justify-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-xs transition-colors">
@@ -442,7 +440,7 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                    <span class="text-xs text-slate-500 hidden md:inline">총 29명 학생 등록됨 · 개인별 사진 및 메모 누적</span>
+                    <span class="text-xs text-slate-500 hidden md:inline">총 29명 학생 등록됨 · 패들렛 스타일 소통 누적</span>
                     <button onclick="openNewStudentModal()" class="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl transition-colors">
                         + 신규 학생 등록
                     </button>
@@ -889,10 +887,15 @@
         </div>
     </div>
 
-    <!-- 알림 토스트 -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <script>
+    <!-- 메인 완전형 스크립트 (실시간 패들렛식 클라우드 영구 저장 & 전 탭 연동) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 담임교사 인증용 비밀번호 상수
         const TEACHER_LOGIN_PASSWORD = '2637';
 
         const rawStudentRoster = [
@@ -927,12 +930,11 @@
             { no: 29, name: "남정우", school: "마전고등학교", isMultiChild: false, volHours: 6 }
         ];
 
-        const fullStudents = rawStudentRoster.map((s) => {
+        const defaultStudents = rawStudentRoster.map((s) => {
             const numStr = String(s.no).padStart(2, '0');
-            const studentId = `307${numStr}`;
             return {
                 id: s.no,
-                studentId: studentId,
+                studentId: `307${numStr}`,
                 no: s.no,
                 name: s.name,
                 school: s.school,
@@ -945,6 +947,90 @@
             };
         });
 
+        const defaultNotices = [
+            {
+                id: 1,
+                category: '중요',
+                title: '2026학년도 307 학급 규칙 및 29명 1인 1역할 안내',
+                content: '3학년 7반 총 29명 학생 여러분 환영합니다! 우리 반은 "서로 존중하고 각자의 책임을 다하는 학급"을 지향합니다. 이번 주까지 [1인 1역할 분담] 탭을 확인하고 본인의 역할을 충실히 수행해 주세요.',
+                date: '2026-03-02',
+                author: '담임선생님',
+                readCount: 29
+            },
+            {
+                id: 2,
+                category: '가정통신',
+                title: '1학기 1차 고등학교 선호도 조사 및 8/19 봉사시간 누계 확인',
+                content: '29명 학생들의 1차 진학 희망 고교와 8/19 기준 봉사활동 누적 시간이 등록되었습니다. 변경 사항이 있을 경우 담임선생님께 말씀해 주세요.',
+                date: '2026-03-03',
+                author: '담임선생님',
+                readCount: 29
+            },
+            {
+                id: 3,
+                category: '행사',
+                title: '3월 학급 자원봉사(환경정화 및 도서관 도우미) 신청',
+                content: '교내 환경정화 봉사활동 및 학급 도서관 정리 봉사자가 필요합니다. 참여 희망 학생은 봉사시간 탭에서 확인해 주세요.',
+                date: '2026-03-03',
+                author: '담임선생님',
+                readCount: 24
+            }
+        ];
+
+        const defaultFrames = [
+            {
+                id: 1,
+                targetTab: 'volunteer',
+                title: '💖 2026학년도 봉사활동 인정 기준 및 입력 안내',
+                desc: '교내/교외 봉사활동 시간 인정 기준 및 1365/VMS 연계 방법 안내 포스터입니다.',
+                imageUrl: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=900&auto=format&fit=crop&q=80',
+                uploader: '담임선생님',
+                date: '2026-03-02'
+            },
+            {
+                id: 2,
+                targetTab: 'roles',
+                title: '🤝 2026학년도 1학기 1인 1역할 활동 안내 포스터',
+                desc: '우리 반을 함께 가꾸는 1인 1역할 규칙입니다. 맡은 구역을 매일 확인하고 실천해 주세요.',
+                imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=900&auto=format&fit=crop&q=80',
+                uploader: '담임선생님',
+                date: '2026-03-02'
+            }
+        ];
+
+        const defaultMaterials = [
+            {
+                id: 1,
+                category: '특목고(외고/과고/예체능)',
+                title: '2027학년도 인천국제고·미추홀외고 입학설명회 및 전형 요강',
+                desc: '자기주도학습전형 안내, 영어 내신 성적 산출 방식 및 자소서 작성 가이드가 포함되어 있습니다.',
+                date: '2026-03-03',
+                uploader: '담임선생님',
+                fileType: 'image',
+                fileName: '2027_외고_입학설명회_포스터.jpg',
+                fileUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80',
+                fileSize: '2.4 MB'
+            },
+            {
+                id: 2,
+                category: '일반고/자율고',
+                title: '인근 백석고·아라고·마전고·이음고·문곡고 2026 교육과정 가이드북',
+                desc: '2022 개정 교육과정에 맞춘 계열별 권장 이수 과목과 우리 지역 일반고 교육과정 편성표 PDF입니다.',
+                date: '2026-03-02',
+                uploader: '담임선생님',
+                fileType: 'doc',
+                fileName: '2026_지역일반고_선택가이드_배부용.pdf',
+                fileUrl: '#',
+                fileSize: '6.8 MB'
+            }
+        ];
+
+        const defaultSchedules = [
+            { id: 1, date: '2026-03-10', time: '15:30', student: '강유진 (30701)', type: '학부모상담', memo: '백석고 지망 및 고교 학점제 대비 과목 선택' },
+            { id: 2, date: '2026-03-11', time: '16:00', student: 'ARTYOM (30715)', type: '학생상담', memo: '아라고 진학 준비 및 한국어 교육 지원' },
+            { id: 3, date: '2026-03-16', time: '14:00', student: '학급 전체 (29명)', type: '학급행사', memo: '2026 고교 선호도 1차 취합 마감 및 확인' }
+        ];
+
         const state = {
             currentUser: {
                 studentId: '30701',
@@ -955,125 +1041,194 @@
             activeTab: 'volunteer',
             noticeFilterCategory: '전체',
             currentFrameFilter: '전체',
-            students: fullStudents,
-            frames: [
-                {
-                    id: 1,
-                    targetTab: 'volunteer',
-                    title: '💖 2026학년도 봉사활동 인정 기준 및 입력 안내',
-                    desc: '교내/교외 봉사활동 시간 인정 기준 및 1365/VMS 연계 방법 안내 포스터입니다.',
-                    imageUrl: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=900&auto=format&fit=crop&q=80',
-                    uploader: '담임선생님',
-                    date: '2026-03-02'
-                },
-                {
-                    id: 2,
-                    targetTab: 'roles',
-                    title: '🤝 2026학년도 1학기 1인 1역할 활동 안내 포스터',
-                    desc: '우리 반을 함께 가꾸는 1인 1역할 규칙입니다. 맡은 구역을 매일 확인하고 실천해 주세요.',
-                    imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=900&auto=format&fit=crop&q=80',
-                    uploader: '담임선생님',
-                    date: '2026-03-02'
-                }
-            ],
-            notices: [
-                {
-                    id: 1,
-                    category: '중요',
-                    title: '2026학년도 307 학급 규칙 및 29명 1인 1역할 안내',
-                    content: '3학년 7반 총 29명 학생 여러분 환영합니다! 우리 반은 "서로 존중하고 각자의 책임을 다하는 학급"을 지향합니다. 이번 주까지 [1인 1역할 분담] 탭을 확인하고 본인의 역할을 충실히 수행해 주세요.',
-                    date: '2026-03-02',
-                    author: '담임선생님',
-                    readCount: 29
-                },
-                {
-                    id: 2,
-                    category: '가정통신',
-                    title: '1학기 1차 고등학교 선호도 조사 및 8/19 봉사시간 누계 확인',
-                    content: '29명 학생들의 1차 진학 희망 고교와 8/19 기준 봉사활동 누적 시간이 등록되었습니다. 변경 사항이 있을 경우 담임선생님께 말씀해 주세요.',
-                    date: '2026-03-03',
-                    author: '담임선생님',
-                    readCount: 29
-                },
-                {
-                    id: 3,
-                    category: '행사',
-                    title: '3월 학급 자원봉사(환경정화 및 도서관 도우미) 신청',
-                    content: '교내 환경정화 봉사활동 및 학급 도서관 정리 봉사자가 필요합니다. 참여 희망 학생은 봉사시간 탭에서 확인해 주세요.',
-                    date: '2026-03-03',
-                    author: '담임선생님',
-                    readCount: 24
-                }
-            ],
-            highSchoolMaterials: [
-                {
-                    id: 1,
-                    category: '특목고(외고/과고/예체능)',
-                    title: '2027학년도 인천국제고·미추홀외고 입학설명회 및 전형 요강',
-                    desc: '자기주도학습전형 안내, 영어 내신 성적 산출 방식 및 자소서 작성 가이드가 포함되어 있습니다.',
-                    date: '2026-03-03',
-                    uploader: '담임선생님',
-                    fileType: 'image',
-                    fileName: '2027_외고_입학설명회_포스터.jpg',
-                    fileUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80',
-                    fileSize: '2.4 MB'
-                },
-                {
-                    id: 2,
-                    category: '일반고/자율고',
-                    title: '인근 백석고·아라고·마전고·이음고·문곡고 2026 교육과정 가이드북',
-                    desc: '2022 개정 교육과정에 맞춘 계열별 권장 이수 과목과 우리 지역 일반고 교육과정 편성표 PDF입니다.',
-                    date: '2026-03-02',
-                    uploader: '담임선생님',
-                    fileType: 'doc',
-                    fileName: '2026_지역일반고_선택가이드_배부용.pdf',
-                    fileUrl: '#',
-                    fileSize: '6.8 MB'
-                },
-                {
-                    id: 3,
-                    category: '특목고(외고/과고/예체능)',
-                    title: '2027학년도 인천과학고(인과고) 신입생 원서 접수 및 영재성 평가 요강',
-                    desc: '인천과학고 전형 세부 일정 및 수학·과학 역량 평가, 학교생활기록부 반영 기준 파일입니다.',
-                    date: '2026-03-01',
-                    uploader: '담임선생님',
-                    fileType: 'doc',
-                    fileName: '2027_인과고_신입생_모집요강.hwp',
-                    fileUrl: '#',
-                    fileSize: '3.5 MB'
-                },
-                {
-                    id: 4,
-                    category: '특성화고/마이스터고',
-                    title: '영화국제관광고 및 뷰티예술고 특별전형·학과 안내 리플릿',
-                    desc: '관광경영과, 항공서비스과, 뷰티디자인과 전형 요강 및 입학 상담 Q&A 자료입니다.',
-                    date: '2026-02-28',
-                    uploader: '담임선생님',
-                    fileType: 'image',
-                    fileName: '2027_특성화고_입학_리플릿.png',
-                    fileUrl: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&auto=format&fit=crop&q=80',
-                    fileSize: '4.2 MB'
-                }
-            ],
+            students: defaultStudents,
+            notices: defaultNotices,
+            frames: defaultFrames,
+            highSchoolMaterials: defaultMaterials,
             roles: [],
-            schedules: [
-                { id: 1, date: '2026-03-10', time: '15:30', student: '강유진 (30701)', type: '학부모상담', memo: '백석고 지망 및 고교 학점제 대비 과목 선택' },
-                { id: 2, date: '2026-03-11', time: '16:00', student: 'ARTYOM (30715)', type: '학생상담', memo: '아라고 진학 준비 및 한국어 교육 지원' },
-                { id: 3, date: '2026-03-16', time: '14:00', student: '학급 전체 (29명)', type: '학급행사', memo: '2026 고교 선호도 1차 취합 마감 및 확인' }
-            ]
+            schedules: defaultSchedules
         };
 
-        // ==========================================
-        // 로그인 및 선생님 비밀번호 인증 로직
-        // ==========================================
+        let db = null;
+        let auth = null;
+        let sharedDocRef = null;
+        let isSaving = false;
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        async function initCloudSync() {
+            if (typeof __firebase_config === 'undefined') return;
+            try {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // RULE 1 준수: 엄격한 단일 문서 경로 사용
+                sharedDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'class_hub', 'current_state');
+
+                // RULE 3 준수: Auth 완료 후 리스너 등록
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // 실시간 리스너 연결 (모든 기기/사용자에게 삭제 및 변경 실시간 동기화)
+                onSnapshot(sharedDocRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.data();
+                        if (data) {
+                            if (Array.isArray(data.students)) state.students = data.students;
+                            if (Array.isArray(data.notices)) state.notices = data.notices;
+                            if (Array.isArray(data.frames)) state.frames = data.frames;
+                            if (Array.isArray(data.highSchoolMaterials)) state.highSchoolMaterials = data.highSchoolMaterials;
+                            if (Array.isArray(data.roles)) state.roles = data.roles;
+                            if (Array.isArray(data.schedules)) state.schedules = data.schedules;
+                            renderAll();
+                            updateSyncBadge('online');
+                        }
+                    } else {
+                        // 최초 1회 기본 데이터 시드 저장
+                        saveToCloud();
+                    }
+                }, (error) => {
+                    console.error("Sync listener error:", error);
+                    updateSyncBadge('error');
+                });
+            } catch (err) {
+                console.error("Cloud init error:", err);
+            }
+        }
+
+        // 클라우드 영구 저장 (패들렛 방식)
+        async function saveToCloud() {
+            if (!auth || !auth.currentUser || !db || !sharedDocRef || isSaving) return;
+            isSaving = true;
+            updateSyncBadge('saving');
+            try {
+                await setDoc(sharedDocRef, {
+                    students: state.students,
+                    notices: state.notices,
+                    frames: state.frames,
+                    highSchoolMaterials: state.highSchoolMaterials,
+                    roles: state.roles,
+                    schedules: state.schedules,
+                    updatedAt: new Date().toISOString()
+                });
+                updateSyncBadge('online');
+            } catch (e) {
+                console.error("Cloud save failed:", e);
+                updateSyncBadge('error');
+            } finally {
+                isSaving = false;
+            }
+        }
+
+        function updateSyncBadge(status) {
+            const badge = document.getElementById('sync-status-badge');
+            if (!badge) return;
+            if (status === 'saving') {
+                badge.innerHTML = `<span>⏳ 저장 중...</span>`;
+                badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200';
+            } else if (status === 'online') {
+                badge.innerHTML = `<span>☁️ 실시간 누적 연동 완료</span>`;
+                badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
+            } else if (status === 'error') {
+                badge.innerHTML = `<span>⚠️ 연동 대기</span>`;
+                badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200';
+            }
+        }
+
+        // 사진 용량 초과 방지용 캔버스 이미지 압축기
+        function compressImageData(dataUrl, maxWidth = 640, quality = 0.65) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let { width, height } = img;
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = () => resolve(dataUrl);
+                img.src = dataUrl;
+            });
+        }
+
+        function openModal(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('hidden');
+        }
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `p-3 px-4 rounded-xl shadow-lg text-xs font-semibold text-white transition-all transform duration-300 pointer-events-auto flex items-center gap-2 ${
+                type === 'success' ? 'bg-emerald-600' : type === 'error' ? 'bg-rose-600' : 'bg-slate-800'
+            }`;
+            toast.innerHTML = `<span>✔</span> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        function openTeacherAuthModal() {
+            const pwdInput = document.getElementById('teacher-login-password');
+            const errText = document.getElementById('teacher-login-error');
+            if (pwdInput) pwdInput.value = '';
+            if (errText) errText.classList.add('hidden');
+            openModal('teacher-auth-modal');
+            setTimeout(() => pwdInput?.focus(), 150);
+        }
+
+        function handleTeacherPasswordSubmit(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const pwdInput = document.getElementById('teacher-login-password');
+            const errText = document.getElementById('teacher-login-error');
+            const entered = pwdInput ? pwdInput.value.trim() : '';
+
+            if (entered === TEACHER_LOGIN_PASSWORD) {
+                closeModal('teacher-auth-modal');
+                state.currentUser = {
+                    studentId: 'T001',
+                    name: '담임선생님',
+                    role: 'teacher'
+                };
+                completeLogin();
+            } else {
+                if (errText) errText.classList.remove('hidden');
+                if (pwdInput) {
+                    pwdInput.value = '';
+                    pwdInput.focus();
+                }
+            }
+        }
+
         function handleLogin(e) {
-            e.preventDefault();
-            const studentId = document.getElementById('login-student-id').value.trim();
-            const name = document.getElementById('login-student-name').value.trim();
+            if (e && e.preventDefault) e.preventDefault();
+            const studentIdInput = document.getElementById('login-student-id');
+            const nameInput = document.getElementById('login-student-name');
+            const studentId = studentIdInput ? studentIdInput.value.trim() : '';
+            const name = nameInput ? nameInput.value.trim() : '';
 
             if (!studentId || !name) return;
 
-            if (name.includes('선생') || studentId.toLowerCase().startsWith('t')) {
+            if (name.includes('선생') || studentId.toLowerCase().startsWith('t') || name.includes('담임')) {
                 openTeacherAuthModal();
                 return;
             }
@@ -1093,38 +1248,10 @@
             completeLogin();
         }
 
-        function openTeacherAuthModal() {
-            const pwdInput = document.getElementById('teacher-login-password');
-            const errText = document.getElementById('teacher-login-error');
-            if (pwdInput) pwdInput.value = '';
-            if (errText) errText.classList.add('hidden');
-            openModal('teacher-auth-modal');
-            setTimeout(() => pwdInput?.focus(), 150);
-        }
-
-        function handleTeacherPasswordSubmit(e) {
-            e.preventDefault();
-            const entered = document.getElementById('teacher-login-password').value.trim();
-            const errText = document.getElementById('teacher-login-error');
-
-            if (entered === TEACHER_LOGIN_PASSWORD) {
-                closeModal('teacher-auth-modal');
-                state.currentUser = {
-                    studentId: 'T001',
-                    name: '담임선생님',
-                    role: 'teacher'
-                };
-                completeLogin();
-            } else {
-                errText.classList.remove('hidden');
-                document.getElementById('teacher-login-password').value = '';
-                document.getElementById('teacher-login-password').focus();
-            }
-        }
-
         function completeLogin() {
             state.isLoggedIn = true;
-            document.getElementById('login-overlay').classList.add('hidden');
+            const overlay = document.getElementById('login-overlay');
+            if (overlay) overlay.classList.add('hidden');
             
             const badge = document.getElementById('header-user-badge');
             const nameLabel = document.getElementById('current-user-name');
@@ -1139,9 +1266,11 @@
             const isTeacher = state.currentUser.role === 'teacher';
 
             if (isTeacher) {
-                badge.innerText = '담임교사 모드 (선호도 수정/공지 관리)';
-                badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200';
-                nameLabel.innerText = `👨‍🏫 ${state.currentUser.name}`;
+                if (badge) {
+                    badge.innerText = '담임교사 모드 (선호도 수정/공지 관리)';
+                    badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200';
+                }
+                if (nameLabel) nameLabel.innerText = `👨‍🏫 ${state.currentUser.name}`;
 
                 if (headerAddNoticeBtn) {
                     headerAddNoticeBtn.classList.remove('hidden');
@@ -1153,7 +1282,6 @@
                     noticeRoleBadge.className = 'text-xs px-2.5 py-0.5 bg-rose-50 text-rose-700 rounded-full font-bold border border-rose-200';
                 }
 
-                // 선호도 조사 탭 교사 권한 활성화
                 if (surveyTeacherEditBtn) {
                     surveyTeacherEditBtn.classList.remove('hidden');
                     surveyTeacherEditBtn.classList.add('inline-flex');
@@ -1170,9 +1298,11 @@
                     surveyTableModeLabel.className = 'text-[11px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold';
                 }
             } else {
-                badge.innerText = `307학급 학생`;
-                badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200';
-                nameLabel.innerText = `🧑‍🎓 ${state.currentUser.studentId} ${state.currentUser.name}`;
+                if (badge) {
+                    badge.innerText = `307학급 학생`;
+                    badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200';
+                }
+                if (nameLabel) nameLabel.innerText = `🧑‍🎓 ${state.currentUser.studentId} ${state.currentUser.name}`;
 
                 if (headerAddNoticeBtn) {
                     headerAddNoticeBtn.classList.add('hidden');
@@ -1184,7 +1314,6 @@
                     noticeRoleBadge.className = 'text-xs px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded-full font-bold border border-slate-200';
                 }
 
-                // 선호도 조사 탭 학생 읽기 전용 상태
                 if (surveyTeacherEditBtn) {
                     surveyTeacherEditBtn.classList.add('hidden');
                     surveyTeacherEditBtn.classList.remove('inline-flex');
@@ -1208,7 +1337,8 @@
 
         function handleLogout() {
             state.isLoggedIn = false;
-            document.getElementById('login-overlay').classList.remove('hidden');
+            const overlay = document.getElementById('login-overlay');
+            if (overlay) overlay.classList.remove('hidden');
         }
 
         function switchTab(tabId) {
@@ -1224,419 +1354,19 @@
             renderTopTabFrameBanner(tabId);
 
             if (tabId === 'volunteer') renderVolunteerTab();
+            if (tabId === 'highschool-survey') renderHighSchoolSurvey();
             if (tabId === 'notices') renderNotices();
             if (tabId === 'frames') renderFramesGallery();
-            if (tabId === 'calendar') renderCalendar();
-            if (tabId === 'roles') renderRoles();
-            if (tabId === 'highschool-docs') renderHighschoolMaterials();
-            if (tabId === 'highschool-survey') renderHighSchoolSurvey();
-            if (tabId === 'traits') renderTraitsTable();
             if (tabId === 'students') renderStudents();
+            if (tabId === 'highschool-docs') renderHighschoolMaterials();
+            if (tabId === 'roles') renderRoles();
+            if (tabId === 'traits') renderTraitsTable();
+            if (tabId === 'calendar') renderCalendar();
         }
 
-        function showToast(msg, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `p-3 px-4 rounded-xl shadow-lg text-xs font-semibold text-white transition-all transform duration-300 pointer-events-auto flex items-center gap-2 ${
-                type === 'success' ? 'bg-emerald-600' : type === 'error' ? 'bg-rose-600' : 'bg-slate-800'
-            }`;
-            toast.innerHTML = `<span>✔</span> <span>${msg}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 2500);
-        }
-
-        function openModal(id) {
-            document.getElementById(id)?.classList.remove('hidden');
-        }
-        function closeModal(id) {
-            document.getElementById(id)?.classList.add('hidden');
-        }
-
-        // ==========================================
-        // 1. 봉사시간 관리 로직
-        // ==========================================
-        function renderVolunteerTab() {
-            renderVolunteerStats();
-            renderVolunteerTable();
-        }
-
-        function renderVolunteerStats() {
-            let totalHours = 0;
-            let maxHours = -1;
-            let topStudentName = '-';
-            let multiChildCount = 0;
-
-            state.students.forEach(s => {
-                const h = Number(s.volHours) || 0;
-                totalHours += h;
-                if (h > maxHours) {
-                    maxHours = h;
-                    topStudentName = `${s.name} (${h}h)`;
-                }
-                if (s.isMultiChild) multiChildCount++;
-            });
-
-            const avgHours = state.students.length > 0 ? (totalHours / state.students.length).toFixed(1) : 0;
-
-            document.getElementById('stat-total-vol-hours').innerText = `${totalHours}시간`;
-            document.getElementById('stat-avg-vol-hours').innerText = `${avgHours}시간`;
-            document.getElementById('stat-top-vol-student').innerText = topStudentName;
-            document.getElementById('stat-multichild-count').innerText = `${multiChildCount}명`;
-        }
-
-        function renderVolunteerTable() {
-            const tbody = document.getElementById('volunteer-table-body');
-            tbody.innerHTML = '';
-
-            const search = (document.getElementById('volunteer-search-input')?.value || '').toLowerCase();
-
-            const filtered = state.students.filter(s => {
-                return s.name.toLowerCase().includes(search) ||
-                       s.studentId.includes(search) ||
-                       String(s.no) === search ||
-                       String(s.volHours).includes(search);
-            });
-
-            filtered.forEach(s => {
-                const isCurrent = state.currentUser.studentId === s.studentId || state.currentUser.name === s.name;
-                const tr = document.createElement('tr');
-                tr.className = `hover:bg-slate-50/80 transition-colors ${isCurrent ? 'bg-indigo-50/40 font-medium' : ''}`;
-
-                const currentHours = Number(s.volHours) || 0;
-                const percent = Math.min(100, Math.round((currentHours / 20) * 100));
-
-                tr.innerHTML = `
-                    <td class="px-4 py-3.5 text-center font-extrabold text-slate-500">${s.no}</td>
-                    <td class="px-4 py-3.5">
-                        <div class="flex items-center gap-2">
-                            <span class="font-mono text-xs text-indigo-600 font-bold">${s.studentId}</span>
-                            <span class="font-bold text-slate-800">${s.name}</span>
-                            ${isCurrent ? '<span class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-bold">본인</span>' : ''}
-                        </div>
-                    </td>
-                    <td class="px-4 py-3.5 text-center">
-                        <button onclick="toggleMultiChild(${s.id})" title="클릭하여 다자녀 여부 변경" class="inline-flex items-center justify-center">
-                            ${s.isMultiChild 
-                                ? '<span class="px-2 py-0.5 rounded-full text-[11px] font-black bg-rose-100 text-rose-700 border border-rose-200">다자녀 (V)</span>' 
-                                : '<span class="px-2 py-0.5 rounded-full text-[11px] text-slate-400 border border-slate-200 hover:bg-slate-100">미해당</span>'}
-                        </button>
-                    </td>
-                    <td class="px-4 py-3.5">
-                        <div class="flex items-center gap-1.5">
-                            <input type="number" value="${currentHours}" min="0" max="999"
-                                onblur="updateStudentVolHours(${s.id}, this.value)"
-                                onkeydown="if(event.key==='Enter') this.blur();"
-                                title="클릭하여 직접 숫자를 입력하세요"
-                                class="w-20 text-center text-sm font-black text-indigo-600 bg-white border border-slate-200 rounded-lg py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:border-slate-300">
-                            <span class="text-xs font-bold text-slate-500">시간</span>
-                        </div>
-                    </td>
-                    <td class="px-4 py-3.5">
-                        <div class="flex items-center gap-1">
-                            <button onclick="adjustVolHours(${s.id}, 1)" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 rounded-md font-bold text-[11px] border border-slate-200 transition-colors">+1h</button>
-                            <button onclick="adjustVolHours(${s.id}, 2)" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 rounded-md font-bold text-[11px] border border-slate-200 transition-colors">+2h</button>
-                            <button onclick="adjustVolHours(${s.id}, 5)" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 rounded-md font-bold text-[11px] border border-slate-200 transition-colors">+5h</button>
-                            <button onclick="adjustVolHours(${s.id}, -1)" class="px-2 py-1 bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-700 rounded-md font-bold text-[11px] border border-slate-200 transition-colors">-1h</button>
-                        </div>
-                    </td>
-                    <td class="px-4 py-3.5">
-                        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200">
-                            <div class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: ${percent}%"></div>
-                        </div>
-                        <span class="text-[10px] text-slate-400 font-medium block mt-0.5">${currentHours}시간 누적</span>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function updateStudentVolHours(studentId, newHours) {
-            const student = state.students.find(s => s.id === studentId);
-            if (student) {
-                const num = Math.max(0, parseInt(newHours) || 0);
-                if (student.volHours !== num) {
-                    student.volHours = num;
-                    renderVolunteerStats();
-                    renderVolunteerTable();
-                    renderTraitsTable();
-                    showToast(`${student.no}번 ${student.name} 학생의 봉사시간이 ${num}시간으로 수정되었습니다.`, 'success');
-                }
-            }
-        }
-
-        function adjustVolHours(studentId, delta) {
-            const student = state.students.find(s => s.id === studentId);
-            if (student) {
-                const current = Number(student.volHours) || 0;
-                const nextVal = Math.max(0, current + delta);
-                student.volHours = nextVal;
-                renderVolunteerStats();
-                renderVolunteerTable();
-                renderTraitsTable();
-                showToast(`${student.no}번 ${student.name} 학생: ${nextVal}시간 (${delta > 0 ? '+' : ''}${delta}h 반영)`, 'success');
-            }
-        }
-
-        function toggleMultiChild(studentId) {
-            const student = state.students.find(s => s.id === studentId);
-            if (student) {
-                student.isMultiChild = !student.isMultiChild;
-                if (student.isMultiChild) {
-                    if (!student.tags.includes('다자녀')) student.tags.push('다자녀');
-                } else {
-                    student.tags = student.tags.filter(t => t !== '다자녀');
-                }
-                renderVolunteerStats();
-                renderVolunteerTable();
-                renderTraitsTable();
-                showToast(`${student.name} 학생의 다자녀 구분이 ${student.isMultiChild ? '등록' : '해제'}되었습니다.`, 'info');
-            }
-        }
-
-        function exportVolunteerCsv() {
-            let csvContent = "data:text/csv;charset=utf-8,\uFEFF번호,학번,이름,다자녀여부,봉사시간(8/19누계),희망고교\n";
-            state.students.forEach(s => {
-                csvContent += `${s.no},${s.studentId},${s.name},${s.isMultiChild ? '다자녀(V)' : '미해당'},${s.volHours},${s.school || '미정'}\n`;
-            });
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "2026_307_봉사시간_8월19일_누계명단.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast("봉사시간 누계 명단 CSV 파일이 다운로드되었습니다.", "success");
-        }
-
-        // ==========================================
-        // 2. [CORE REVISED] 고등학교 선호도 조사 (담임교사만 수정 가능)
-        // ==========================================
-        function renderHighSchoolSurvey() {
-            renderSurveyStats();
-            renderSurveyTable();
-        }
-
-        function renderSurveyStats() {
-            const container = document.getElementById('survey-stats-container');
-            container.innerHTML = '';
-
-            const counts = {};
-            state.students.forEach(s => {
-                let school = (s.school || '미정').trim();
-                if (school === '문곡고') school = '문곡';
-                if (school === '아라고') school = '아라';
-                if (school === '마전고등학교') school = '마전';
-
-                counts[school] = (counts[school] || 0) + 1;
-            });
-
-            const sortedSchools = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-
-            sortedSchools.forEach(([school, count]) => {
-                const badge = document.createElement('div');
-                badge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border bg-slate-50 border-slate-200 text-xs font-bold";
-                
-                let colorClass = 'text-indigo-600';
-                if (school.includes('백석')) colorClass = 'text-blue-600';
-                else if (school.includes('아라')) colorClass = 'text-emerald-600';
-                else if (school.includes('마전')) colorClass = 'text-purple-600';
-                else if (school.includes('외고') || school.includes('인과고')) colorClass = 'text-rose-600';
-
-                badge.innerHTML = `
-                    <span class="text-slate-700">${school}</span>
-                    <span class="px-1.5 py-0.5 rounded-md text-[11px] bg-white border border-slate-200 ${colorClass}">${count}명</span>
-                `;
-                container.appendChild(badge);
-            });
-        }
-
-        function renderSurveyTable() {
-            const tbody = document.getElementById('survey-table-body');
-            tbody.innerHTML = '';
-
-            const search = (document.getElementById('survey-search-input')?.value || '').toLowerCase();
-            const isTeacher = state.currentUser.role === 'teacher';
-
-            const filtered = state.students.filter(s => {
-                return s.name.toLowerCase().includes(search) ||
-                       s.studentId.includes(search) ||
-                       String(s.no) === search ||
-                       (s.school && s.school.toLowerCase().includes(search));
-            });
-
-            filtered.forEach(s => {
-                const isCurrent = state.currentUser.studentId === s.studentId || state.currentUser.name === s.name;
-                const tr = document.createElement('tr');
-                tr.className = `hover:bg-slate-50/80 transition-colors ${isCurrent ? 'bg-indigo-50/40 font-medium' : ''}`;
-
-                // 담임교사일 때만 입력 및 상세 수정 활성화
-                const schoolInputHtml = isTeacher ? `
-                    <div class="flex items-center gap-2">
-                        <input type="text" value="${s.school || ''}" 
-                            onblur="updateStudentHighSchool(${s.id}, this.value)" 
-                            onkeydown="if(event.key==='Enter') this.blur();"
-                            placeholder="고등학교 입력..."
-                            title="담임선생님: 클릭하여 직접 수정하세요"
-                            class="w-full text-xs font-bold text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all hover:border-slate-300">
-                        <button onclick="openEditHsModal(${s.id})" title="상세 모달로 수정" class="p-1.5 text-slate-400 hover:text-indigo-600 rounded hover:bg-slate-100">
-                            ✏️
-                        </button>
-                    </div>
-                ` : `
-                    <div class="flex items-center gap-2">
-                        <span class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 text-slate-800 border border-slate-200 cursor-not-allowed">
-                            ${s.school || '미정'}
-                        </span>
-                        <span class="text-[10px] text-slate-400 font-medium">읽기전용</span>
-                    </div>
-                `;
-
-                // 프리셋 버튼도 담임교사만 사용 가능
-                const presetButtonsHtml = isTeacher ? `
-                    <div class="flex flex-wrap gap-1">
-                        <button onclick="quickSetSchool(${s.id}, '백석')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">백석</button>
-                        <button onclick="quickSetSchool(${s.id}, '아라')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">아라</button>
-                        <button onclick="quickSetSchool(${s.id}, '마전')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">마전</button>
-                        <button onclick="quickSetSchool(${s.id}, '이음')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">이음</button>
-                        <button onclick="quickSetSchool(${s.id}, '문곡')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">문곡</button>
-                    </div>
-                ` : `
-                    <span class="text-[11px] text-slate-400">담임교사 전용</span>
-                `;
-
-                tr.innerHTML = `
-                    <td class="px-4 py-3 text-center font-extrabold text-slate-500">${s.no}</td>
-                    <td class="px-4 py-3">
-                        <div class="flex items-center gap-2">
-                            <span class="font-mono text-xs text-indigo-600 font-bold">${s.studentId}</span>
-                            <span class="font-bold text-slate-800">${s.name}</span>
-                            ${isCurrent ? '<span class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-bold">본인</span>' : ''}
-                        </div>
-                    </td>
-                    <td class="px-4 py-3 text-center">
-                        ${s.isMultiChild ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-700 border border-rose-200">다자녀 (V)</span>' : '<span class="text-[11px] text-slate-400">-</span>'}
-                    </td>
-                    <td class="px-4 py-3">
-                        ${schoolInputHtml}
-                    </td>
-                    <td class="px-4 py-3">
-                        ${presetButtonsHtml}
-                    </td>
-                    <td class="px-4 py-3 text-center">
-                        ${isTeacher ? `
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800">
-                                수정가능
-                            </span>
-                        ` : `
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-500">
-                                열람전용
-                            </span>
-                        `}
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function updateStudentHighSchool(studentId, newSchool) {
-            if (state.currentUser.role !== 'teacher') {
-                showToast('고등학교 선호도 수정은 담임선생님만 가능합니다.', 'error');
-                return;
-            }
-
-            const student = state.students.find(s => s.id === studentId);
-            if (student) {
-                const cleaned = newSchool.trim();
-                if (student.school !== cleaned) {
-                    student.school = cleaned;
-                    renderSurveyStats();
-                    renderTraitsTable();
-                    renderStudents();
-                    showToast(`${student.no}번 ${student.name} 학생: '${cleaned}' 변경 완료`, 'success');
-                }
-            }
-        }
-
-        function quickSetSchool(studentId, schoolName) {
-            if (state.currentUser.role !== 'teacher') {
-                showToast('고등학교 선호도 수정은 담임선생님만 가능합니다.', 'error');
-                return;
-            }
-
-            const student = state.students.find(s => s.id === studentId);
-            if (student) {
-                student.school = schoolName;
-                renderHighSchoolSurvey();
-                renderTraitsTable();
-                renderStudents();
-                showToast(`${student.no}번 ${student.name} 학생: '${schoolName}' 선택 완료`, 'success');
-            }
-        }
-
-        // 상단 담임교사용 고교 변경 버튼 핸들러
-        function promptTeacherEditSchool() {
-            if (state.currentUser.role !== 'teacher') {
-                showToast('고등학교 선호도 수정은 담임선생님 전용 권한입니다.', 'error');
-                return;
-            }
-            openEditHsModal(state.students[0].id);
-        }
-
-        function openEditHsModal(studentId) {
-            if (state.currentUser.role !== 'teacher') {
-                showToast('고등학교 선호도 수정은 담임선생님만 가능합니다.', 'error');
-                return;
-            }
-
-            const student = state.students.find(s => s.id === studentId);
-            if (!student) return;
-
-            document.getElementById('edit-hs-student-id').value = student.id;
-            document.getElementById('edit-hs-student-name').innerText = `학생: ${student.no}번 ${student.name} (${student.studentId})`;
-            document.getElementById('edit-hs-input').value = student.school || '';
-            openModal('edit-hs-modal');
-        }
-
-        function setPresetHsModal(name) {
-            document.getElementById('edit-hs-input').value = name;
-        }
-
-        function saveHighSchoolModal() {
-            if (state.currentUser.role !== 'teacher') {
-                showToast('수정 권한이 없습니다.', 'error');
-                return;
-            }
-
-            const studentId = parseInt(document.getElementById('edit-hs-student-id').value);
-            const val = document.getElementById('edit-hs-input').value.trim();
-            updateStudentHighSchool(studentId, val);
-            closeModal('edit-hs-modal');
-            renderHighSchoolSurvey();
-        }
-
-        function exportToCsv() {
-            let csvContent = "data:text/csv;charset=utf-8,\uFEFF번호,학번,이름,다자녀여부,희망고등학교\n";
-            state.students.forEach(s => {
-                csvContent += `${s.no},${s.studentId},${s.name},${s.isMultiChild ? '다자녀(V)' : '미해당'},${s.school || '미정'}\n`;
-            });
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "2026_307_고등학교_선호도조사.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast("선호도 조사 명단 CSV 파일이 다운로드되었습니다.", "success");
-        }
-
-        // ==========================================
-        // 3. 전체 공지사항 (즉시 삭제 및 실시간 렌더링 완벽 보장)
-        // ==========================================
         function renderNotices() {
             const container = document.getElementById('notice-cards-container');
+            if (!container) return;
             container.innerHTML = '';
 
             const badgeStyles = {
@@ -1656,7 +1386,8 @@
                 list = list.filter(n => n.title.toLowerCase().includes(searchInput) || n.content.toLowerCase().includes(searchInput));
             }
 
-            document.getElementById('notice-badge').textContent = state.notices.length;
+            const badgeCount = document.getElementById('notice-badge');
+            if (badgeCount) badgeCount.textContent = state.notices.length;
 
             if (list.length === 0) {
                 container.innerHTML = `
@@ -1730,8 +1461,8 @@
             openModal('notice-modal');
         }
 
-        function handleCreateNotice(e) {
-            e.preventDefault();
+        async function handleCreateNotice(e) {
+            if (e && e.preventDefault) e.preventDefault();
             const cat = document.getElementById('new-notice-category').value;
             const title = document.getElementById('new-notice-title').value.trim();
             const content = document.getElementById('new-notice-content').value.trim();
@@ -1751,6 +1482,7 @@
             closeModal('notice-modal');
             e.target.reset();
             showToast('새 공지사항이 등록되었습니다.', 'success');
+            await saveToCloud();
         }
 
         function openEditNoticeModal(noticeId) {
@@ -1771,8 +1503,8 @@
             openModal('edit-notice-modal');
         }
 
-        function handleUpdateNotice(e) {
-            e.preventDefault();
+        async function handleUpdateNotice(e) {
+            if (e && e.preventDefault) e.preventDefault();
             const id = Number(document.getElementById('edit-notice-id').value);
             const notice = state.notices.find(n => Number(n.id) === id);
 
@@ -1784,11 +1516,12 @@
                 renderNotices();
                 closeModal('edit-notice-modal');
                 showToast(`공지사항 "${notice.title}"이(가) 수정되었습니다.`, 'success');
+                await saveToCloud();
             }
         }
 
-        // 공지 삭제 함수: 엄격한 형변환과 즉각적인 UI 반영
-        function deleteNoticeDirect(id) {
+        // 공지 삭제: 즉시 화면 제거 및 클라우드 영구 저장 (새로고침해도 완전히 삭제됨)
+        async function deleteNoticeDirect(id) {
             if (state.currentUser.role !== 'teacher') {
                 showToast('공지 삭제는 담임선생님만 가능합니다.', 'error');
                 return;
@@ -1798,12 +1531,10 @@
             const target = state.notices.find(n => Number(n.id) === targetId);
             const title = target ? target.title : '공지';
 
-            // 배열에서 완전 제거
             state.notices = state.notices.filter(n => Number(n.id) !== targetId);
-
-            // 화면 즉시 다시 그리기
             renderNotices();
-            showToast(`공지사항 "${title}"이(가) 삭제되었습니다.`, 'info');
+            showToast(`공지사항 "${title}"이(가) 완전히 삭제되었습니다.`, 'info');
+            await saveToCloud();
         }
 
         function deleteNoticeFromEditModal() {
@@ -1812,13 +1543,392 @@
             deleteNoticeDirect(id);
         }
 
-        // ==========================================
-        // 4. 안내 액자 & 배너 기능
-        // ==========================================
+        function renderVolunteerTab() {
+            renderVolunteerStats();
+            renderVolunteerTable();
+        }
+
+        function renderVolunteerStats() {
+            let totalHours = 0;
+            let maxHours = -1;
+            let topStudentName = '-';
+            let multiChildCount = 0;
+
+            state.students.forEach(s => {
+                const h = Number(s.volHours) || 0;
+                totalHours += h;
+                if (h > maxHours) {
+                    maxHours = h;
+                    topStudentName = `${s.name} (${h}h)`;
+                }
+                if (s.isMultiChild) multiChildCount++;
+            });
+
+            const avgHours = state.students.length > 0 ? (totalHours / state.students.length).toFixed(1) : 0;
+
+            const totalEl = document.getElementById('stat-total-vol-hours');
+            const avgEl = document.getElementById('stat-avg-vol-hours');
+            const topEl = document.getElementById('stat-top-vol-student');
+            const multiEl = document.getElementById('stat-multichild-count');
+
+            if (totalEl) totalEl.innerText = `${totalHours}시간`;
+            if (avgEl) avgEl.innerText = `${avgHours}시간`;
+            if (topEl) topEl.innerText = topStudentName;
+            if (multiEl) multiEl.innerText = `${multiChildCount}명`;
+        }
+
+        function renderVolunteerTable() {
+            const tbody = document.getElementById('volunteer-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const search = (document.getElementById('volunteer-search-input')?.value || '').toLowerCase();
+
+            const filtered = state.students.filter(s => {
+                return s.name.toLowerCase().includes(search) ||
+                       s.studentId.includes(search) ||
+                       String(s.no) === search ||
+                       String(s.volHours).includes(search);
+            });
+
+            filtered.forEach(s => {
+                const isCurrent = state.currentUser.studentId === s.studentId || state.currentUser.name === s.name;
+                const tr = document.createElement('tr');
+                tr.className = `hover:bg-slate-50/80 transition-colors ${isCurrent ? 'bg-indigo-50/40 font-medium' : ''}`;
+
+                const currentHours = Number(s.volHours) || 0;
+                const percent = Math.min(100, Math.round((currentHours / 20) * 100));
+
+                tr.innerHTML = `
+                    <td class="px-4 py-3.5 text-center font-extrabold text-slate-500">${s.no}</td>
+                    <td class="px-4 py-3.5">
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono text-xs text-indigo-600 font-bold">${s.studentId}</span>
+                            <span class="font-bold text-slate-800">${s.name}</span>
+                            ${isCurrent ? '<span class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-bold">본인</span>' : ''}
+                        </div>
+                    </td>
+                    <td class="px-4 py-3.5 text-center">
+                        <button onclick="toggleMultiChild(${s.id})" title="클릭하여 다자녀 여부 변경" class="inline-flex items-center justify-center">
+                            ${s.isMultiChild 
+                                ? '<span class="px-2 py-0.5 rounded-full text-[11px] font-black bg-rose-100 text-rose-700 border border-rose-200">다자녀 (V)</span>' 
+                                : '<span class="px-2 py-0.5 rounded-full text-[11px] text-slate-400 border border-slate-200 hover:bg-slate-100">미해당</span>'}
+                        </button>
+                    </td>
+                    <td class="px-4 py-3.5">
+                        <div class="flex items-center gap-1.5">
+                            <input type="number" value="${currentHours}" min="0" max="999"
+                                onblur="updateStudentVolHours(${s.id}, this.value)"
+                                onkeydown="if(event.key==='Enter') this.blur();"
+                                title="클릭하여 직접 숫자를 입력하세요"
+                                class="w-20 text-center text-sm font-black text-indigo-600 bg-white border border-slate-200 rounded-lg py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:border-slate-300">
+                            <span class="text-xs font-bold text-slate-500">시간</span>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3.5">
+                        <div class="flex items-center gap-1">
+                            <button onclick="adjustVolHours(${s.id}, 1)" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 rounded-md font-bold text-[11px] border border-slate-200 transition-colors">+1h</button>
+                            <button onclick="adjustVolHours(${s.id}, 2)" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 rounded-md font-bold text-[11px] border border-slate-200 transition-colors">+2h</button>
+                            <button onclick="adjustVolHours(${s.id}, 5)" class="px-2 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 rounded-md font-bold text-[11px] border border-slate-200 transition-colors">+5h</button>
+                            <button onclick="adjustVolHours(${s.id}, -1)" class="px-2 py-1 bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-700 rounded-md font-bold text-[11px] border border-slate-200 transition-colors">-1h</button>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3.5">
+                        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200">
+                            <div class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: ${percent}%"></div>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-medium block mt-0.5">${currentHours}시간 누적</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function updateStudentVolHours(studentId, newHours) {
+            const student = state.students.find(s => s.id === studentId);
+            if (student) {
+                const num = Math.max(0, parseInt(newHours) || 0);
+                if (student.volHours !== num) {
+                    student.volHours = num;
+                    renderVolunteerStats();
+                    renderVolunteerTable();
+                    renderTraitsTable();
+                    showToast(`${student.no}번 ${student.name} 학생의 봉사시간이 ${num}시간으로 수정되었습니다.`, 'success');
+                    await saveToCloud();
+                }
+            }
+        }
+
+        async function adjustVolHours(studentId, delta) {
+            const student = state.students.find(s => s.id === studentId);
+            if (student) {
+                const current = Number(student.volHours) || 0;
+                const nextVal = Math.max(0, current + delta);
+                student.volHours = nextVal;
+                renderVolunteerStats();
+                renderVolunteerTable();
+                renderTraitsTable();
+                showToast(`${student.no}번 ${student.name} 학생: ${nextVal}시간 (${delta > 0 ? '+' : ''}${delta}h 반영)`, 'success');
+                await saveToCloud();
+            }
+        }
+
+        async function toggleMultiChild(studentId) {
+            const student = state.students.find(s => s.id === studentId);
+            if (student) {
+                student.isMultiChild = !student.isMultiChild;
+                if (student.isMultiChild) {
+                    if (!student.tags.includes('다자녀')) student.tags.push('다자녀');
+                } else {
+                    student.tags = student.tags.filter(t => t !== '다자녀');
+                }
+                renderVolunteerStats();
+                renderVolunteerTable();
+                renderTraitsTable();
+                showToast(`${student.name} 학생의 다자녀 구분이 ${student.isMultiChild ? '등록' : '해제'}되었습니다.`, 'info');
+                await saveToCloud();
+            }
+        }
+
+        function exportVolunteerCsv() {
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF번호,학번,이름,다자녀여부,봉사시간(8/19누계),희망고교\n";
+            state.students.forEach(s => {
+                csvContent += `${s.no},${s.studentId},${s.name},${s.isMultiChild ? '다자녀(V)' : '미해당'},${s.volHours},${s.school || '미정'}\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "2026_307_봉사시간_8월19일_누계명단.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("봉사시간 누계 명단 CSV 파일이 다운로드되었습니다.", "success");
+        }
+
+        function renderHighSchoolSurvey() {
+            renderSurveyStats();
+            renderSurveyTable();
+        }
+
+        function renderSurveyStats() {
+            const container = document.getElementById('survey-stats-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const counts = {};
+            state.students.forEach(s => {
+                let school = (s.school || '미정').trim();
+                if (school === '문곡고') school = '문곡';
+                if (school === '아라고') school = '아라';
+                if (school === '마전고등학교') school = '마전';
+                counts[school] = (counts[school] || 0) + 1;
+            });
+
+            const sortedSchools = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+
+            sortedSchools.forEach(([school, count]) => {
+                const badge = document.createElement('div');
+                badge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border bg-slate-50 border-slate-200 text-xs font-bold";
+                
+                let colorClass = 'text-indigo-600';
+                if (school.includes('백석')) colorClass = 'text-blue-600';
+                else if (school.includes('아라')) colorClass = 'text-emerald-600';
+                else if (school.includes('마전')) colorClass = 'text-purple-600';
+                else if (school.includes('외고') || school.includes('인과고')) colorClass = 'text-rose-600';
+
+                badge.innerHTML = `
+                    <span class="text-slate-700">${school}</span>
+                    <span class="px-1.5 py-0.5 rounded-md text-[11px] bg-white border border-slate-200 ${colorClass}">${count}명</span>
+                `;
+                container.appendChild(badge);
+            });
+        }
+
+        function renderSurveyTable() {
+            const tbody = document.getElementById('survey-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const search = (document.getElementById('survey-search-input')?.value || '').toLowerCase();
+            const isTeacher = state.currentUser.role === 'teacher';
+
+            const filtered = state.students.filter(s => {
+                return s.name.toLowerCase().includes(search) ||
+                       s.studentId.includes(search) ||
+                       String(s.no) === search ||
+                       (s.school && s.school.toLowerCase().includes(search));
+            });
+
+            filtered.forEach(s => {
+                const isCurrent = state.currentUser.studentId === s.studentId || state.currentUser.name === s.name;
+                const tr = document.createElement('tr');
+                tr.className = `hover:bg-slate-50/80 transition-colors ${isCurrent ? 'bg-indigo-50/40 font-medium' : ''}`;
+
+                const schoolInputHtml = isTeacher ? `
+                    <div class="flex items-center gap-2">
+                        <input type="text" value="${s.school || ''}" 
+                            onblur="updateStudentHighSchool(${s.id}, this.value)" 
+                            onkeydown="if(event.key==='Enter') this.blur();"
+                            placeholder="고등학교 입력..."
+                            title="담임선생님: 클릭하여 직접 수정하세요"
+                            class="w-full text-xs font-bold text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all hover:border-slate-300">
+                        <button onclick="openEditHsModal(${s.id})" title="상세 모달로 수정" class="p-1.5 text-slate-400 hover:text-indigo-600 rounded hover:bg-slate-100">
+                            ✏️
+                        </button>
+                    </div>
+                ` : `
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 text-slate-800 border border-slate-200 cursor-not-allowed">
+                            ${s.school || '미정'}
+                        </span>
+                        <span class="text-[10px] text-slate-400 font-medium">읽기전용</span>
+                    </div>
+                `;
+
+                const presetButtonsHtml = isTeacher ? `
+                    <div class="flex flex-wrap gap-1">
+                        <button onclick="quickSetSchool(${s.id}, '백석')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">백석</button>
+                        <button onclick="quickSetSchool(${s.id}, '아라')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">아라</button>
+                        <button onclick="quickSetSchool(${s.id}, '마전')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">마전</button>
+                        <button onclick="quickSetSchool(${s.id}, '이음')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">이음</button>
+                        <button onclick="quickSetSchool(${s.id}, '문곡')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200">문곡</button>
+                    </div>
+                ` : `
+                    <span class="text-[11px] text-slate-400">담임교사 전용</span>
+                `;
+
+                tr.innerHTML = `
+                    <td class="px-4 py-3 text-center font-extrabold text-slate-500">${s.no}</td>
+                    <td class="px-4 py-3">
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono text-xs text-indigo-600 font-bold">${s.studentId}</span>
+                            <span class="font-bold text-slate-800">${s.name}</span>
+                            ${isCurrent ? '<span class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-bold">본인</span>' : ''}
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                        ${s.isMultiChild ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-700 border border-rose-200">다자녀 (V)</span>' : '<span class="text-[11px] text-slate-400">-</span>'}
+                    </td>
+                    <td class="px-4 py-3">
+                        ${schoolInputHtml}
+                    </td>
+                    <td class="px-4 py-3">
+                        ${presetButtonsHtml}
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                        ${isTeacher ? `
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800">
+                                수정가능
+                            </span>
+                        ` : `
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-500">
+                                열람전용
+                            </span>
+                        `}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function updateStudentHighSchool(studentId, newSchool) {
+            if (state.currentUser.role !== 'teacher') {
+                showToast('고등학교 선호도 수정은 담임선생님만 가능합니다.', 'error');
+                return;
+            }
+
+            const student = state.students.find(s => s.id === studentId);
+            if (student) {
+                const cleaned = newSchool.trim();
+                if (student.school !== cleaned) {
+                    student.school = cleaned;
+                    renderSurveyStats();
+                    renderTraitsTable();
+                    renderStudents();
+                    showToast(`${student.no}번 ${student.name} 학생: '${cleaned}' 변경 완료`, 'success');
+                    await saveToCloud();
+                }
+            }
+        }
+
+        async function quickSetSchool(studentId, schoolName) {
+            if (state.currentUser.role !== 'teacher') {
+                showToast('고등학교 선호도 수정은 담임선생님만 가능합니다.', 'error');
+                return;
+            }
+
+            const student = state.students.find(s => s.id === studentId);
+            if (student) {
+                student.school = schoolName;
+                renderHighSchoolSurvey();
+                renderTraitsTable();
+                renderStudents();
+                showToast(`${student.no}번 ${student.name} 학생: '${schoolName}' 선택 완료`, 'success');
+                await saveToCloud();
+            }
+        }
+
+        function promptTeacherEditSchool() {
+            if (state.currentUser.role !== 'teacher') {
+                showToast('고등학교 선호도 수정은 담임선생님 전용 권한입니다.', 'error');
+                return;
+            }
+            openEditHsModal(state.students[0].id);
+        }
+
+        function openEditHsModal(studentId) {
+            if (state.currentUser.role !== 'teacher') {
+                showToast('고등학교 선호도 수정은 담임선생님만 가능합니다.', 'error');
+                return;
+            }
+
+            const student = state.students.find(s => s.id === studentId);
+            if (!student) return;
+
+            document.getElementById('edit-hs-student-id').value = student.id;
+            document.getElementById('edit-hs-student-name').innerText = `학생: ${student.no}번 ${student.name} (${student.studentId})`;
+            document.getElementById('edit-hs-input').value = student.school || '';
+            openModal('edit-hs-modal');
+        }
+
+        function setPresetHsModal(name) {
+            document.getElementById('edit-hs-input').value = name;
+        }
+
+        async function saveHighSchoolModal() {
+            if (state.currentUser.role !== 'teacher') {
+                showToast('수정 권한이 없습니다.', 'error');
+                return;
+            }
+
+            const studentId = parseInt(document.getElementById('edit-hs-student-id').value);
+            const val = document.getElementById('edit-hs-input').value.trim();
+            closeModal('edit-hs-modal');
+            await updateStudentHighSchool(studentId, val);
+            renderHighSchoolSurvey();
+        }
+
+        function exportToCsv() {
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF번호,학번,이름,다자녀여부,희망고등학교\n";
+            state.students.forEach(s => {
+                csvContent += `${s.no},${s.studentId},${s.name},${s.isMultiChild ? '다자녀(V)' : '미해당'},${s.school || '미정'}\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "2026_307_고등학교_선호도조사.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("선호도 조사 명단 CSV 파일이 다운로드되었습니다.", "success");
+        }
+
         let pendingFrameImageData = null;
 
         function renderTopTabFrameBanner(currentTabId) {
             const bannerContainer = document.getElementById('top-tab-frame-banner');
+            if (!bannerContainer) return;
+
             if (currentTabId === 'frames') {
                 bannerContainer.classList.add('hidden');
                 return;
@@ -1861,6 +1971,7 @@
 
         function renderFramesGallery() {
             const grid = document.getElementById('frames-gallery-grid');
+            if (!grid) return;
             grid.innerHTML = '';
 
             let list = state.frames;
@@ -1868,7 +1979,8 @@
                 list = list.filter(f => f.targetTab === state.currentFrameFilter);
             }
 
-            document.getElementById('frame-badge').textContent = `${state.frames.length}개`;
+            const frameBadge = document.getElementById('frame-badge');
+            if (frameBadge) frameBadge.textContent = `${state.frames.length}개`;
 
             if (list.length === 0) {
                 grid.innerHTML = `
@@ -1951,18 +2063,20 @@
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(event) {
-                    pendingFrameImageData = event.target.result;
-                    document.getElementById('frame-file-info').innerText = `선택됨: ${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)`;
-                    document.getElementById('frame-preview-img').src = event.target.result;
+                reader.onload = async function(event) {
+                    // 용량 절약을 위한 고효율 리사이징
+                    const compressed = await compressImageData(event.target.result, 720, 0.7);
+                    pendingFrameImageData = compressed;
+                    document.getElementById('frame-file-info').innerText = `선택됨: ${file.name}`;
+                    document.getElementById('frame-preview-img').src = compressed;
                     document.getElementById('frame-preview-box').classList.remove('hidden');
                 };
                 reader.readAsDataURL(file);
             }
         }
 
-        function handleCreateFrame(e) {
-            e.preventDefault();
+        async function handleCreateFrame(e) {
+            if (e && e.preventDefault) e.preventDefault();
             const targetTab = document.getElementById('new-frame-target-tab').value;
             const title = document.getElementById('new-frame-title').value.trim();
             const desc = document.getElementById('new-frame-desc').value.trim();
@@ -1988,14 +2102,16 @@
             closeModal('add-frame-modal');
             e.target.reset();
             showToast('새 안내 액자가 성공적으로 게시되었습니다.', 'success');
+            await saveToCloud();
         }
 
-        function deleteFrame(frameId) {
+        async function deleteFrame(frameId) {
             const targetId = Number(frameId);
             state.frames = state.frames.filter(f => Number(f.id) !== targetId);
             renderFramesGallery();
             renderTopTabFrameBanner(state.activeTab);
             showToast('액자가 삭제되었습니다.', 'info');
+            await saveToCloud();
         }
 
         function quickViewTabFrame(tabId) {
@@ -2006,11 +2122,9 @@
             }
         }
 
-        // ==========================================
-        // 5. 학생 카드 & 개인 소통칸
-        // ==========================================
         function renderStudents(filterText = '') {
             const grid = document.getElementById('students-grid');
+            if (!grid) return;
             grid.innerHTML = '';
 
             const filtered = state.students.filter(s => {
@@ -2021,7 +2135,8 @@
                        (s.school && s.school.toLowerCase().includes(q));
             });
 
-            document.getElementById('student-count-badge').textContent = `${state.students.length}명`;
+            const countBadge = document.getElementById('student-count-badge');
+            if (countBadge) countBadge.textContent = `${state.students.length}명`;
 
             filtered.forEach(s => {
                 const isCurrent = state.currentUser.name === s.name || state.currentUser.studentId === s.studentId;
@@ -2029,7 +2144,7 @@
                 card.className = `bg-white rounded-2xl border ${isCurrent ? 'ring-2 ring-indigo-500 border-indigo-400' : 'border-slate-200/90'} shadow-xs overflow-hidden flex flex-col justify-between`;
 
                 let messagesHtml = '';
-                if (s.messages.length === 0) {
+                if (!s.messages || s.messages.length === 0) {
                     messagesHtml = `<div class="text-center py-5 text-xs text-slate-400">아직 등록된 개인 연락 및 활동 사진이 없습니다.<br>아래에서 첫 소통 메시지나 사진을 등록해 보세요.</div>`;
                 } else {
                     messagesHtml = s.messages.map(m => `
@@ -2095,7 +2210,7 @@
                                 <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
                                     <span>💬</span> 개인 소통 및 사진 기록
                                 </h4>
-                                <span class="text-[11px] text-slate-400">${s.messages.length}건 누적</span>
+                                <span class="text-[11px] text-slate-400">${s.messages ? s.messages.length : 0}건 누적</span>
                             </div>
                             <div class="space-y-2.5 max-h-48 overflow-y-auto custom-scroll pr-1 mb-3">
                                 ${messagesHtml}
@@ -2108,7 +2223,7 @@
                                     <input type="text" id="input-msg-${s.id}" placeholder="${state.currentUser.role === 'teacher' ? '선생님 피드백 입력...' : '선생님께 남길 글이나 활동 내용...'}" class="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500">
                                 </div>
                                 <label title="사진 첨부" class="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl cursor-pointer transition-colors">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     <input type="file" id="input-file-${s.id}" accept="image/*" class="hidden" onchange="previewFileSelected(${s.id})">
                                 </label>
                                 <button onclick="sendStudentMessage(${s.id})" class="px-3.5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-colors">
@@ -2136,8 +2251,9 @@
             const fileInput = document.getElementById(`input-file-${studentId}`);
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    pendingFiles[studentId] = e.target.result;
+                reader.onload = async function(e) {
+                    const compressed = await compressImageData(e.target.result, 600, 0.65);
+                    pendingFiles[studentId] = compressed;
                     document.getElementById(`file-indicator-${studentId}`).classList.remove('hidden');
                 };
                 reader.readAsDataURL(fileInput.files[0]);
@@ -2150,7 +2266,7 @@
             document.getElementById(`file-indicator-${studentId}`).classList.add('hidden');
         }
 
-        function sendStudentMessage(studentId) {
+        async function sendStudentMessage(studentId) {
             const input = document.getElementById(`input-msg-${studentId}`);
             const text = input.value.trim();
             const photo = pendingFiles[studentId] || null;
@@ -2166,6 +2282,7 @@
             const now = new Date();
             const timeStr = `${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
+            if (!student.messages) student.messages = [];
             student.messages.push({
                 id: Date.now(),
                 sender: state.currentUser.role === 'teacher' ? 'teacher' : 'student',
@@ -2178,19 +2295,21 @@
             input.value = '';
             renderStudents();
             showToast(`${student.name} 학생 칸에 기록되었습니다.`, 'success');
+            await saveToCloud();
         }
 
-        function handleStudentAvatarUpload(e, studentId) {
+        async function handleStudentAvatarUpload(e, studentId) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(event) {
+                reader.onload = async function(event) {
+                    const compressed = await compressImageData(event.target.result, 200, 0.7);
                     const student = state.students.find(s => s.id === studentId);
                     if (student) {
-                        student.avatar = event.target.result;
+                        student.avatar = compressed;
                         renderStudents();
-                        renderTraitsTable();
                         showToast(`${student.name} 학생의 프로필 사진이 업데이트되었습니다.`, 'success');
+                        await saveToCloud();
                     }
                 };
                 reader.readAsDataURL(file);
@@ -2202,8 +2321,8 @@
             openModal('student-modal');
         }
 
-        function handleCreateStudent(e) {
-            e.preventDefault();
+        async function handleCreateStudent(e) {
+            if (e && e.preventDefault) e.preventDefault();
             const num = document.getElementById('new-student-num').value.trim();
             const name = document.getElementById('new-student-name').value.trim();
             const school = document.getElementById('new-student-target-school').value.trim();
@@ -2234,16 +2353,15 @@
             closeModal('student-modal');
             e.target.reset();
             showToast(`${name} 학생이 등록되었습니다.`, 'success');
+            await saveToCloud();
         }
 
-        // ==========================================
-        // 6. 고등학교 자료실
-        // ==========================================
         let currentHsFilter = '전체';
         let pendingMaterialFile = null;
 
         function renderHighschoolMaterials() {
             const container = document.getElementById('highschool-materials-grid');
+            if (!container) return;
             container.innerHTML = '';
 
             let filtered = state.highSchoolMaterials;
@@ -2251,7 +2369,8 @@
                 filtered = state.highSchoolMaterials.filter(m => m.category === currentHsFilter);
             }
 
-            document.getElementById('highschool-badge').textContent = `${state.highSchoolMaterials.length}건`;
+            const hsBadge = document.getElementById('highschool-badge');
+            if (hsBadge) hsBadge.textContent = `${state.highSchoolMaterials.length}건`;
 
             filtered.forEach(m => {
                 const card = document.createElement('div');
@@ -2336,11 +2455,15 @@
                 const isImage = file.type.startsWith('image/');
                 const sizeStr = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
 
-                reader.onload = function(event) {
+                reader.onload = async function(event) {
+                    let fileDataUrl = event.target.result;
+                    if (isImage) {
+                        fileDataUrl = await compressImageData(event.target.result, 800, 0.7);
+                    }
                     pendingMaterialFile = {
                         name: file.name,
                         type: isImage ? 'image' : 'doc',
-                        dataUrl: event.target.result,
+                        dataUrl: fileDataUrl,
                         size: sizeStr
                     };
                     document.getElementById('mat-file-preview-info').innerText = `선택됨: ${file.name} (${sizeStr}) - ${isImage ? '🖼️ 사진' : '📄 문서'}`;
@@ -2349,8 +2472,8 @@
             }
         }
 
-        function handleCreateMaterial(e) {
-            e.preventDefault();
+        async function handleCreateMaterial(e) {
+            if (e && e.preventDefault) e.preventDefault();
             const category = document.getElementById('new-mat-category').value;
             const title = document.getElementById('new-mat-title').value.trim();
             const desc = document.getElementById('new-mat-desc').value.trim();
@@ -2380,6 +2503,7 @@
             closeModal('material-modal');
             e.target.reset();
             showToast('고등학교 자료가 안전하게 업로드되었습니다.', 'success');
+            await saveToCloud();
         }
 
         function downloadOrOpenFile(name, url) {
@@ -2396,21 +2520,21 @@
             }
         }
 
-        function deleteMaterial(id) {
+        async function deleteMaterial(id) {
             const targetId = Number(id);
             state.highSchoolMaterials = state.highSchoolMaterials.filter(m => Number(m.id) !== targetId);
             renderHighschoolMaterials();
             showToast('자료가 삭제되었습니다.', 'info');
+            await saveToCloud();
         }
 
-        // ==========================================
-        // 7. 1인 1역할 분담
-        // ==========================================
         function renderRoles() {
             const container = document.getElementById('roles-grid');
+            if (!container) return;
             container.innerHTML = '';
 
-            document.getElementById('roles-badge').textContent = `${state.roles.length}개`;
+            const rolesBadge = document.getElementById('roles-badge');
+            if (rolesBadge) rolesBadge.textContent = `${state.roles.length}개`;
 
             if (state.roles.length === 0) {
                 container.innerHTML = `
@@ -2461,12 +2585,13 @@
 
         function openAddRoleModal() {
             const select = document.getElementById('new-role-student');
+            if (!select) return;
             select.innerHTML = state.students.map(s => `<option value="${s.studentId}|${s.name}">${s.no}번 ${s.studentId} ${s.name}</option>`).join('');
             openModal('role-modal');
         }
 
-        function handleCreateRole(e) {
-            e.preventDefault();
+        async function handleCreateRole(e) {
+            if (e && e.preventDefault) e.preventDefault();
             const title = document.getElementById('new-role-title').value.trim();
             const [studentId, studentName] = document.getElementById('new-role-student').value.split('|');
             const desc = document.getElementById('new-role-desc').value.trim();
@@ -2485,33 +2610,33 @@
             closeModal('role-modal');
             e.target.reset();
             showToast('새 학급 역할이 배정되었습니다.', 'success');
+            await saveToCloud();
         }
 
-        function deleteRole(id) {
+        async function deleteRole(id) {
             const targetId = Number(id);
             state.roles = state.roles.filter(r => Number(r.id) !== targetId);
             renderRoles();
             showToast('역할이 삭제되었습니다.', 'info');
+            await saveToCloud();
         }
 
-        // ==========================================
-        // 8. 특징 누적 매트릭스
-        // ==========================================
         let currentTraitFilter = '전체';
         function renderTraitsTable() {
             const tbody = document.getElementById('traits-table-body');
+            if (!tbody) return;
             tbody.innerHTML = '';
 
             let filtered = state.students;
             if (currentTraitFilter !== '전체') {
-                filtered = state.students.filter(s => s.tags.some(t => t.includes(currentTraitFilter)));
+                filtered = state.students.filter(s => s.tags && s.tags.some(t => t.includes(currentTraitFilter)));
             }
 
             filtered.forEach(s => {
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50/80 transition-colors";
 
-                const tagChips = s.tags.length > 0 
+                const tagChips = (s.tags && s.tags.length > 0)
                     ? s.tags.map(t => `
                         <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-lg border border-slate-200">
                             #${t}
@@ -2574,11 +2699,12 @@
             renderTraitsTable();
         }
 
-        function updateTraitDesc(studentId, newDesc) {
+        async function updateTraitDesc(studentId, newDesc) {
             const student = state.students.find(s => s.id === studentId);
             if (student) {
                 student.traitsDesc = newDesc;
                 showToast(`${student.name} 학생의 관찰 메모가 저장되었습니다.`, 'info');
+                await saveToCloud();
             }
         }
 
@@ -2589,36 +2715,39 @@
             openModal('add-tag-modal');
         }
 
-        function confirmAddTag() {
+        async function confirmAddTag() {
             const studentId = parseInt(document.getElementById('tag-target-student-id').value);
             const tagVal = document.getElementById('new-tag-input').value.trim();
             if (!tagVal) return;
 
             const student = state.students.find(s => s.id === studentId);
-            if (student && !student.tags.includes(tagVal)) {
-                student.tags.push(tagVal);
-                renderTraitsTable();
-                renderStudents();
-                showToast(`'#${tagVal}' 태그가 추가되었습니다.`, 'success');
+            if (student) {
+                if (!student.tags) student.tags = [];
+                if (!student.tags.includes(tagVal)) {
+                    student.tags.push(tagVal);
+                    renderTraitsTable();
+                    renderStudents();
+                    showToast(`'#${tagVal}' 태그가 추가되었습니다.`, 'success');
+                    await saveToCloud();
+                }
             }
             closeModal('add-tag-modal');
         }
 
-        function removeTag(studentId, tagToRemove) {
+        async function removeTag(studentId, tagToRemove) {
             const student = state.students.find(s => s.id === studentId);
-            if (student) {
+            if (student && student.tags) {
                 student.tags = student.tags.filter(t => t !== tagToRemove);
                 renderTraitsTable();
                 renderStudents();
                 showToast(`'#${tagToRemove}' 태그가 삭제되었습니다.`, 'info');
+                await saveToCloud();
             }
         }
 
-        // ==========================================
-        // 9. 캘린더 로직
-        // ==========================================
         function renderCalendar() {
             const grid = document.getElementById('calendar-days-grid');
+            if (!grid) return;
             grid.innerHTML = '';
             const totalDays = 31;
 
@@ -2665,6 +2794,7 @@
 
         function renderUpcomingScheduleList() {
             const container = document.getElementById('upcoming-schedules');
+            if (!container) return;
             container.innerHTML = '';
 
             const sorted = [...state.schedules].sort((a,b) => a.date.localeCompare(b.date));
@@ -2692,8 +2822,8 @@
             });
         }
 
-        function handleAddSchedule(e) {
-            e.preventDefault();
+        async function handleAddSchedule(e) {
+            if (e && e.preventDefault) e.preventDefault();
             const student = document.getElementById('sched-student').value;
             const type = document.getElementById('sched-type').value;
             const date = document.getElementById('sched-date').value;
@@ -2711,13 +2841,15 @@
             renderCalendar();
             document.getElementById('sched-memo').value = '';
             showToast('상담 일정이 등록되었습니다.', 'success');
+            await saveToCloud();
         }
 
-        function deleteSchedule(id) {
+        async function deleteSchedule(id) {
             const targetId = Number(id);
             state.schedules = state.schedules.filter(s => Number(s.id) !== targetId);
             renderCalendar();
             showToast('일정이 삭제되었습니다.', 'info');
+            await saveToCloud();
         }
 
         function updateScheduleSelectOptions() {
@@ -2750,10 +2882,10 @@
 
         function renderAll() {
             renderVolunteerTab();
+            renderHighSchoolSurvey();
             renderNotices();
             renderFramesGallery();
             renderTopTabFrameBanner(state.activeTab);
-            renderHighSchoolSurvey();
             renderStudents();
             renderHighschoolMaterials();
             renderRoles();
@@ -2763,8 +2895,85 @@
             populateLoginDropdown();
         }
 
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.showToast = showToast;
+        window.openTeacherAuthModal = openTeacherAuthModal;
+        window.handleTeacherPasswordSubmit = handleTeacherPasswordSubmit;
+        window.handleLogin = handleLogin;
+        window.quickLogin = quickLogin;
+        window.completeLogin = completeLogin;
+        window.handleLogout = handleLogout;
+        window.switchTab = switchTab;
+
+        window.renderVolunteerTab = renderVolunteerTab;
+        window.updateStudentVolHours = updateStudentVolHours;
+        window.adjustVolHours = adjustVolHours;
+        window.toggleMultiChild = toggleMultiChild;
+        window.exportVolunteerCsv = exportVolunteerCsv;
+
+        window.renderHighSchoolSurvey = renderHighSchoolSurvey;
+        window.updateStudentHighSchool = updateStudentHighSchool;
+        window.quickSetSchool = quickSetSchool;
+        window.promptTeacherEditSchool = promptTeacherEditSchool;
+        window.openEditHsModal = openEditHsModal;
+        window.setPresetHsModal = setPresetHsModal;
+        window.saveHighSchoolModal = saveHighSchoolModal;
+        window.exportToCsv = exportToCsv;
+
+        window.renderNotices = renderNotices;
+        window.filterNotices = filterNotices;
+        window.openNoticeModal = openNoticeModal;
+        window.handleCreateNotice = handleCreateNotice;
+        window.openEditNoticeModal = openEditNoticeModal;
+        window.handleUpdateNotice = handleUpdateNotice;
+        window.deleteNoticeDirect = deleteNoticeDirect;
+        window.deleteNoticeFromEditModal = deleteNoticeFromEditModal;
+
+        window.renderFramesGallery = renderFramesGallery;
+        window.filterFrames = filterFrames;
+        window.openAddFrameModal = openAddFrameModal;
+        window.handleFrameFileSelect = handleFrameFileSelect;
+        window.handleCreateFrame = handleCreateFrame;
+        window.deleteFrame = deleteFrame;
+        window.quickViewTabFrame = quickViewTabFrame;
+
+        window.renderStudents = renderStudents;
+        window.filterStudents = filterStudents;
+        window.previewFileSelected = previewFileSelected;
+        window.clearSelectedFile = clearSelectedFile;
+        window.sendStudentMessage = sendStudentMessage;
+        window.handleStudentAvatarUpload = handleStudentAvatarUpload;
+        window.openNewStudentModal = openNewStudentModal;
+        window.handleCreateStudent = handleCreateStudent;
+
+        window.renderHighschoolMaterials = renderHighschoolMaterials;
+        window.filterHighschool = filterHighschool;
+        window.openAddMaterialModal = openAddMaterialModal;
+        window.handleMaterialFileSelect = handleMaterialFileSelect;
+        window.handleCreateMaterial = handleCreateMaterial;
+        window.downloadOrOpenFile = downloadOrOpenFile;
+        window.deleteMaterial = deleteMaterial;
+
+        window.renderRoles = renderRoles;
+        window.openAddRoleModal = openAddRoleModal;
+        window.handleCreateRole = handleCreateRole;
+        window.deleteRole = deleteRole;
+
+        window.renderTraitsTable = renderTraitsTable;
+        window.filterTraitsByTag = filterTraitsByTag;
+        window.updateTraitDesc = updateTraitDesc;
+        window.openAddTagModal = openAddTagModal;
+        window.confirmAddTag = confirmAddTag;
+        window.removeTag = removeTag;
+
+        window.renderCalendar = renderCalendar;
+        window.handleAddSchedule = handleAddSchedule;
+        window.deleteSchedule = deleteSchedule;
+
         window.addEventListener('DOMContentLoaded', () => {
             renderAll();
+            initCloudSync();
         });
     </script>
 </body>
