@@ -898,6 +898,20 @@
         // 담임교사 인증용 비밀번호 상수
         const TEACHER_LOGIN_PASSWORD = '2637';
 
+        // 선생님께서 제공해주신 Firebase 프로젝트(jari-5c613) 설정
+        const userProvidedConfig = {
+            apiKey: "AIzaSyCgAvzXn5V_MA1jqEJuvREI4caqBlv35U4",
+            authDomain: "jari-5c613.firebaseapp.com",
+            projectId: "jari-5c613",
+            storageBucket: "jari-5c613.firebasestorage.app",
+            messagingSenderId: "632470920233",
+            appId: "1:632470920233:web:ade1d51e1e9ee02d03d038",
+            measurementId: "G-4RVCCB6EZF"
+        };
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userProvidedConfig;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'jari-5c613';
+
         const rawStudentRoster = [
             { no: 1, name: "강유진", school: "백석", isMultiChild: true, volHours: 11 },
             { no: 2, name: "강보빈", school: "이음", isMultiChild: false, volHours: 6 },
@@ -1054,17 +1068,13 @@
         let sharedDocRef = null;
         let isSaving = false;
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
         async function initCloudSync() {
-            if (typeof __firebase_config === 'undefined') return;
             try {
-                const firebaseConfig = JSON.parse(__firebase_config);
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
 
-                // RULE 1 준수: 엄격한 단일 문서 경로 사용
+                // RULE 1 준수: 엄격한 단일 문서 경로 사용 (/artifacts/{appId}/public/data/class_hub/current_state)
                 sharedDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'class_hub', 'current_state');
 
                 // RULE 3 준수: Auth 완료 후 리스너 등록
@@ -1074,7 +1084,9 @@
                     await signInAnonymously(auth);
                 }
 
-                // 실시간 리스너 연결 (모든 기기/사용자에게 삭제 및 변경 실시간 동기화)
+                updateSyncBadge('online');
+
+                // 실시간 리스너 연결 (에러 콜백 필수 포함)
                 onSnapshot(sharedDocRef, (snapshot) => {
                     if (snapshot.exists()) {
                         const data = snapshot.data();
@@ -1089,19 +1101,19 @@
                             updateSyncBadge('online');
                         }
                     } else {
-                        // 최초 1회 기본 데이터 시드 저장
+                        // 최초 클라우드 문서가 없으면 초기 데이터 시드 업로드
                         saveToCloud();
                     }
                 }, (error) => {
-                    console.error("Sync listener error:", error);
+                    console.error("Firestore sync error:", error);
                     updateSyncBadge('error');
                 });
             } catch (err) {
                 console.error("Cloud init error:", err);
+                updateSyncBadge('error');
             }
         }
 
-        // 클라우드 영구 저장 (패들렛 방식)
         async function saveToCloud() {
             if (!auth || !auth.currentUser || !db || !sharedDocRef || isSaving) return;
             isSaving = true;
@@ -1129,18 +1141,17 @@
             const badge = document.getElementById('sync-status-badge');
             if (!badge) return;
             if (status === 'saving') {
-                badge.innerHTML = `<span>⏳ 저장 중...</span>`;
+                badge.innerHTML = `<span>⏳ 클라우드 저장 중...</span>`;
                 badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200';
             } else if (status === 'online') {
-                badge.innerHTML = `<span>☁️ 실시간 누적 연동 완료</span>`;
+                badge.innerHTML = `<span>☁️ 실시간 누적 연동 중 (jari-5c613)</span>`;
                 badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
             } else if (status === 'error') {
-                badge.innerHTML = `<span>⚠️ 연동 대기</span>`;
+                badge.innerHTML = `<span>⚠️ 로컬 세션 보존 중</span>`;
                 badge.className = 'inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200';
             }
         }
 
-        // 사진 용량 초과 방지용 캔버스 이미지 압축기
         function compressImageData(dataUrl, maxWidth = 640, quality = 0.65) {
             return new Promise((resolve) => {
                 const img = new Image();
@@ -1520,7 +1531,7 @@
             }
         }
 
-        // 공지 삭제: 즉시 화면 제거 및 클라우드 영구 저장 (새로고침해도 완전히 삭제됨)
+        // 공지 삭제: 화면 즉각 반영 및 클라우드 영구 저장 (새로고침해도 완전히 삭제됨)
         async function deleteNoticeDirect(id) {
             if (state.currentUser.role !== 'teacher') {
                 showToast('공지 삭제는 담임선생님만 가능합니다.', 'error');
@@ -2064,7 +2075,6 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = async function(event) {
-                    // 용량 절약을 위한 고효율 리사이징
                     const compressed = await compressImageData(event.target.result, 720, 0.7);
                     pendingFrameImageData = compressed;
                     document.getElementById('frame-file-info').innerText = `선택됨: ${file.name}`;
