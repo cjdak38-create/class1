@@ -34,11 +34,23 @@
             background-color: #f8fafc;
             color: #1e293b;
         }
-        .tab-btn.active {
-            color: #4f46e5;
-            border-bottom: 3px solid #4f46e5;
+        .tab-btn {
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
             background-color: #ffffff;
+            transition: all 0.15s ease-in-out;
+        }
+        .tab-btn:hover {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #1e293b;
+        }
+        .tab-btn.active {
+            color: #4338ca;
+            border-color: #6366f1;
+            background-color: #eef2ff;
             font-weight: 700;
+            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
         }
         .custom-scroll::-webkit-scrollbar {
             width: 6px;
@@ -173,43 +185,47 @@
                 </div>
             </div>
 
-            <!-- 네비게이션 탭 -->
-            <nav class="flex space-x-1 sm:space-x-2 border-t border-slate-100 overflow-x-auto custom-scroll -mb-px py-0.5" aria-label="Tabs">
-                <button onclick="switchTab('calendar')" id="tab-btn-calendar" class="tab-btn active py-3 px-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-all">
+            <!-- 네비게이션 탭 (슬라이드 없이 한 화면에 전체 노출되는 줄바꿈 래핑 탭) -->
+            <nav class="flex flex-wrap items-center gap-1.5 sm:gap-2 border-t border-slate-100 py-3" aria-label="Tabs">
+                <button onclick="switchTab('calendar')" id="tab-btn-calendar" class="tab-btn active py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-1.5 shadow-2xs">
                     <span>📅</span> 우리반 캘린더
                 </button>
-                <button onclick="switchTab('volunteer')" id="tab-btn-volunteer" class="tab-btn py-3 px-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-all">
+                <button onclick="switchTab('volunteer')" id="tab-btn-volunteer" class="tab-btn py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-1.5 shadow-2xs">
                     <span>💖</span> 봉사시간 관리
                     <span class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-indigo-100 text-indigo-700 font-bold" id="volunteer-badge">8/19 누계</span>
                 </button>
-                <button onclick="switchTab('highschool-survey')" id="tab-btn-highschool-survey" class="tab-btn py-3 px-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-all">
+                <button onclick="switchTab('highschool-survey')" id="tab-btn-highschool-survey" class="tab-btn py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-1.5 shadow-2xs">
                     <span>🏫</span> 고등학교 선호도
                     <span class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-rose-100 text-rose-700 font-bold">29명</span>
                 </button>
-                <button onclick="switchTab('notices')" id="tab-btn-notices" class="tab-btn py-3 px-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-all">
+                <button onclick="switchTab('notices')" id="tab-btn-notices" class="tab-btn py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-1.5 shadow-2xs">
                     <span>📢</span> 전체 공지
                     <span id="notice-badge" class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-indigo-100 text-indigo-700 font-bold">3</span>
                 </button>
-                <button onclick="switchTab('teacher-docs')" id="tab-btn-teacher-docs" class="tab-btn py-3 px-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-all">
+                <button onclick="switchTab('teacher-docs')" id="tab-btn-teacher-docs" class="tab-btn py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-1.5 shadow-2xs">
                     <span>📁</span> 담임 자료실
                     <span id="teacher-docs-badge" class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-sky-100 text-sky-800 font-bold">3건</span>
                 </button>
-                <button onclick="switchTab('students')" id="tab-btn-students" class="tab-btn py-3 px-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-all">
+                <button onclick="switchTab('students')" id="tab-btn-students" class="tab-btn py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-1.5 shadow-2xs">
                     <span>🧑‍🎓</span> 학생 소통칸
                     <span id="student-count-badge" class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-indigo-100 text-indigo-700 font-bold">29명</span>
                 </button>
-                <button onclick="switchTab('highschool-docs')" id="tab-btn-highschool-docs" class="tab-btn py-3 px-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-all">
+                <button onclick="switchTab('highschool-docs')" id="tab-btn-highschool-docs" class="tab-btn py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-1.5 shadow-2xs">
                     <span>🎓</span> 고등학교 자료실
                     <span class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-indigo-100 text-indigo-700 font-bold" id="highschool-badge">2건</span>
                 </button>
-                <button onclick="switchTab('roles')" id="tab-btn-roles" class="tab-btn py-3 px-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-all">
+                <button onclick="switchTab('roles')" id="tab-btn-roles" class="tab-btn py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-1.5 shadow-2xs">
                     <span>🤝</span> 1인 1역할
                     <span class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-slate-200 text-slate-700 font-bold" id="roles-badge">0개</span>
                 </button>
-                <button onclick="switchTab('traits')" id="tab-btn-traits" class="tab-btn py-3 px-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-all">
+                <button onclick="switchTab('traits')" id="tab-btn-traits" class="tab-btn py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-1.5 shadow-2xs">
                     <span>🏷️</span> 특징 누적부
                 </button>
-                <button onclick="switchTab('secret-notes')" id="tab-btn-secret-notes" class="tab-btn hidden py-3 px-3 text-sm font-medium border-b-2 border-transparent text-rose-600 hover:text-rose-700 whitespace-nowrap items-center gap-1.5 transition-all">
+                <button onclick="switchTab('private-docs')" id="tab-btn-private-docs" class="tab-btn py-2 px-3 text-xs sm:text-sm font-medium text-amber-700 hover:text-amber-800 flex items-center gap-1.5 shadow-2xs">
+                    <span>🔐</span> 1:1 비밀 배부함
+                    <span id="private-docs-badge" class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-amber-100 text-amber-800 font-bold">0건</span>
+                </button>
+                <button onclick="switchTab('secret-notes')" id="tab-btn-secret-notes" class="tab-btn hidden py-2 px-3 text-xs sm:text-sm font-medium text-rose-600 hover:text-rose-700 items-center gap-1.5 shadow-2xs">
                     <span>🔒</span> 담임 누가기록
                 </button>
             </nav>
@@ -597,6 +613,48 @@
             </div>
         </section>
 
+        <section id="tab-private-docs" class="tab-pane hidden space-y-6">
+            <div class="bg-white p-5 rounded-2xl border border-amber-200/90 shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-amber-50/40 via-white to-white">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-black text-base shadow-xs">
+                            🔐
+                        </span>
+                        <h2 class="text-lg font-bold text-slate-800">1:1 개별 비밀 배부함</h2>
+                        <span id="private-auth-badge" class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                            개별 암호 보호
+                        </span>
+                    </div>
+                    <p id="private-auth-desc" class="text-xs text-slate-500 mt-1">
+                        성적표 사본, 개별 추천서, 민감 상담 자료 등 학생 개인에게만 안전하게 전달하는 문서함입니다. 선생님께서 알려주신 비밀번호를 입력해야만 다운로드가 가능합니다.
+                    </p>
+                </div>
+                <div id="private-teacher-btn-wrapper" class="hidden">
+                    <button onclick="openCreatePrivateDocModal()" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5">
+                        <span>🔐 +</span> 새 비밀 배부 문서 등록
+                    </button>
+                </div>
+            </div>
+
+            <!-- 검색 및 빠른 필터 -->
+            <div class="flex flex-col sm:flex-row gap-2 justify-between items-start sm:items-center bg-white p-3 rounded-xl border border-slate-200">
+                <div class="flex flex-wrap gap-1.5 items-center">
+                    <span class="text-xs font-bold text-slate-400 mr-1.5">구분:</span>
+                    <button onclick="filterPrivateDocs('전체')" class="pdoc-filter-btn active px-3 py-1 text-xs rounded-lg font-bold bg-slate-800 text-white">전체 보기</button>
+                    <button onclick="filterPrivateDocs('성적/평가')" class="pdoc-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">📊 성적/평가</button>
+                    <button onclick="filterPrivateDocs('진학/추천서')" class="pdoc-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">🎓 진학/추천서</button>
+                    <button onclick="filterPrivateDocs('상담/소견서')" class="pdoc-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">💬 상담/소견서</button>
+                    <button onclick="filterPrivateDocs('기타/개별서류')" class="pdoc-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">📑 기타 개별서류</button>
+                </div>
+                <div class="w-full sm:w-64">
+                    <input type="text" id="pdoc-search-input" onkeyup="renderPrivateDocs()" placeholder="문서 제목 또는 학생 검색..." class="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500">
+                </div>
+            </div>
+
+            <!-- 비밀 배부 문서 카드 그리드 -->
+            <div id="private-docs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        </section>
+
         <section id="tab-secret-notes" class="tab-pane hidden space-y-6">
             <div class="bg-white p-5 rounded-2xl border border-rose-200/80 shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-rose-50/50 via-white to-white">
                 <div>
@@ -721,6 +779,106 @@
                         <button type="button" onclick="closeModal('secret-note-detail-modal')" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg">닫기</button>
                         <button type="submit" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg">내용 수정</button>
                     </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- [MODAL] 새 1:1 비밀 배부 문서 등록 모달 (담임 전용) -->
+    <div id="create-private-doc-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs hidden p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-amber-100">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">🔐</span>
+                    <h3 class="text-base font-bold text-slate-800">새 1:1 비밀 배부 문서 등록</h3>
+                </div>
+                <button onclick="closeModal('create-private-doc-modal')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+            </div>
+            <form onsubmit="handleCreatePrivateDoc(event)" class="mt-4 space-y-3.5 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-medium text-slate-700 mb-1">문서 분류</label>
+                        <select id="new-pdoc-category" class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-amber-500 font-medium">
+                            <option value="성적/평가">📊 성적표 / 모의고사 분석서</option>
+                            <option value="진학/추천서">🎓 진학 상담 자료 / 추천서 초안</option>
+                            <option value="상담/소견서">💬 심층 상담 소견서 / 전달 서류</option>
+                            <option value="기타/개별서류">📑 기타 민감 개별 안내 서류</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-medium text-slate-700 mb-1">수신 학생 선택 (29명 중)</label>
+                        <select id="new-pdoc-student" required class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-amber-500 font-medium"></select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">문서 제목</label>
+                    <input type="text" id="new-pdoc-title" required placeholder="예: 1학기 지필·수행 종합 성적 분석표 및 과목별 소견서" class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-amber-500 font-bold">
+                </div>
+
+                <!-- 비밀번호 설정 필드 -->
+                <div class="p-3 bg-amber-50/70 border border-amber-200 rounded-xl">
+                    <label class="block font-bold text-amber-900 mb-1">🔑 해당 학생 전용 열람 비밀번호 설정</label>
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="new-pdoc-password" required maxlength="12" placeholder="예: 3071 또는 학생 생일" class="w-full p-2 bg-white border border-amber-300 rounded-lg text-sm font-black tracking-wider text-amber-900 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <button type="button" onclick="generateRandomPin()" class="px-3 py-2 bg-white border border-amber-300 text-amber-700 hover:bg-amber-100 rounded-lg font-bold flex-shrink-0">
+                            랜덤 생성
+                        </button>
+                    </div>
+                    <p class="text-[11px] text-amber-700 mt-1">※ 이 비밀번호를 학생에게 직접 알려주시면 학생이 비밀번호를 입력해 문서를 다운로드할 수 있습니다.</p>
+                </div>
+
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">학생에게 남길 개별 전달 안내문</label>
+                    <textarea id="new-pdoc-memo" rows="3" placeholder="문서에 대한 피드백이나 학생이 확인할 사항을 자유롭게 작성하세요..." class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-amber-500 leading-relaxed"></textarea>
+                </div>
+
+                <!-- 파일 다중 첨부 -->
+                <div class="border-2 border-dashed border-amber-200 rounded-xl p-3.5 text-center bg-amber-50/40 hover:bg-amber-50 transition-colors">
+                    <input type="file" id="new-pdoc-file" multiple onchange="handlePrivateDocFileSelect(event)" class="hidden">
+                    <button type="button" onclick="document.getElementById('new-pdoc-file').click()" class="px-4 py-2 bg-white border border-amber-300 rounded-lg text-xs font-bold text-amber-800 shadow-xs hover:bg-amber-50 flex items-center gap-1.5 mx-auto">
+                        <span>📎</span> 비공개 문서/사진 파일 선택 (다중 선택 가능)
+                    </button>
+                    <p id="pdoc-file-preview-info" class="text-[11px] text-slate-500 mt-1.5 font-medium">선택된 파일이 없습니다 (PDF, HWP, 이미지 등)</p>
+                    <div id="pdoc-files-preview-box" class="mt-2 flex flex-wrap gap-1.5 justify-center max-h-24 overflow-y-auto custom-scroll"></div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+                    <button type="button" onclick="closeModal('create-private-doc-modal')" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg">취소</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg shadow-xs">비밀 배부함에 등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- [MODAL] 학생 비밀번호 잠금 해제 모달 -->
+    <div id="unlock-private-doc-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs hidden p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-amber-100 text-center">
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-2.5 text-2xl font-black shadow-xs">
+                🔐
+            </div>
+            <h3 class="text-base font-extrabold text-slate-800">비밀 문서 잠금 해제</h3>
+            <p id="unlock-modal-title" class="text-xs font-bold text-indigo-600 mt-1 truncate px-2"></p>
+            <p class="text-xs text-slate-500 mt-1">
+                선생님께서 알려주신 비밀번호를 입력하세요.<br>
+                잠금이 해제되면 파일 다운로드가 가능합니다.
+            </p>
+
+            <form onsubmit="handleUnlockPrivateDoc(event)" class="mt-4 space-y-3.5 text-xs">
+                <input type="hidden" id="unlock-target-id">
+                <div>
+                    <input type="password" id="unlock-password-input" maxlength="20" placeholder="열람 비밀번호 입력" autofocus required class="w-full text-center tracking-widest text-lg font-black p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-slate-50">
+                    <p id="unlock-error-msg" class="text-[11px] text-rose-600 font-bold mt-1.5 hidden">
+                        비밀번호가 일치하지 않습니다. 선생님께 확인해 보세요.
+                    </p>
+                </div>
+                <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+                    <button type="button" onclick="closeModal('unlock-private-doc-modal')" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-colors">
+                        닫기
+                    </button>
+                    <button type="submit" class="w-1/2 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl transition-colors shadow-xs">
+                        잠금 풀기 🔓
+                    </button>
                 </div>
             </form>
         </div>
@@ -1199,6 +1357,37 @@
             { id: 4, date: '2026-03-16', time: '14:00', student: '학급 전체 (29명)', type: '학급행사', memo: '2026 고교 선호도 1차 취합 마감 및 확인' }
         ];
 
+        const defaultPrivateDeliveries = [
+            {
+                id: 1,
+                targetStudentId: '30701',
+                targetStudentName: '강유진',
+                category: '성적/평가',
+                title: '2026 1학기 지필·수행 종합 성적 통지표 및 개인별 분석서',
+                memo: '유진아, 1학기 동안 성실하게 임해준 결과 성적표를 보낸다. 국어·수학 성취도가 우수하고 백석고 진학에 긍정적이야. 비밀번호 입력 후 파일 열어서 확인해보렴.',
+                password: '3071',
+                date: '2026-03-03',
+                uploader: '담임선생님',
+                files: [
+                    { name: '30701_강유진_1학기_종합성적분석표.pdf', type: 'doc', dataUrl: '#', size: '152.4 KB' }
+                ]
+            },
+            {
+                id: 2,
+                targetStudentId: '30714',
+                targetStudentName: '조시연',
+                category: '진학/추천서',
+                title: '원당고 지망 학생 맞춤형 특별장학 추천서 초안 및 소견서',
+                memo: '시연아, 봉사활동 69시간 실적과 부반장 자치활동을 바탕으로 작성한 장학 추천서 초안이다. 비밀번호 치고 들어가서 오탈자나 추가하고 싶은 내용이 있는지 검토해줘.',
+                password: '7788',
+                date: '2026-03-04',
+                uploader: '담임선생님',
+                files: [
+                    { name: '30714_조시연_장학추천서_초안.hwp', type: 'doc', dataUrl: '#', size: '64.0 KB' }
+                ]
+            }
+        ];
+
         const state = {
             currentUser: {
                 studentId: '30701',
@@ -1211,13 +1400,16 @@
             currentSnFilter: '전체',
             currentTeacherDocFilter: '전체',
             currentHsFilter: '전체',
+            currentPdocFilter: '전체',
             students: defaultStudents,
             notices: defaultNotices,
             teacherMaterials: defaultTeacherMaterials,
             highSchoolMaterials: defaultHighSchoolMaterials,
             roles: [],
             schedules: defaultSchedules,
-            secretNotes: []
+            secretNotes: [],
+            privateDeliveries: defaultPrivateDeliveries,
+            unlockedDeliveries: {} // 세션 내 비밀번호 해제된 문서 ID 맵
         };
 
         function openModal(id) {
@@ -1367,6 +1559,17 @@
                 if (teacherDocUploadBtn) {
                     teacherDocUploadBtn.classList.remove('hidden');
                 }
+                const pdocBtnWrapper = document.getElementById('private-teacher-btn-wrapper');
+                const pdocAuthBadge = document.getElementById('private-auth-badge');
+                const pdocAuthDesc = document.getElementById('private-auth-desc');
+                if (pdocBtnWrapper) pdocBtnWrapper.classList.remove('hidden');
+                if (pdocAuthBadge) {
+                    pdocAuthBadge.innerText = '담임교사 관리 모드 (암호 확인/배부 가능)';
+                    pdocAuthBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-amber-100 text-amber-900 border border-amber-300';
+                }
+                if (pdocAuthDesc) {
+                    pdocAuthDesc.innerHTML = '선생님께서는 학생별로 <strong>설정한 비밀번호를 확인하고 배부 문서를 추가/삭제</strong>하실 수 있습니다.';
+                }
             } else {
                 if (badge) {
                     badge.innerText = `307학급 학생`;
@@ -1407,6 +1610,17 @@
                 if (state.activeTab === 'secret-notes') {
                     switchTab('calendar');
                 }
+                const pdocBtnWrapper = document.getElementById('private-teacher-btn-wrapper');
+                const pdocAuthBadge = document.getElementById('private-auth-badge');
+                const pdocAuthDesc = document.getElementById('private-auth-desc');
+                if (pdocBtnWrapper) pdocBtnWrapper.classList.add('hidden');
+                if (pdocAuthBadge) {
+                    pdocAuthBadge.innerText = `${state.currentUser.name} 학생 배부함`;
+                    pdocAuthBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-amber-100 text-amber-800 border border-amber-200';
+                }
+                if (pdocAuthDesc) {
+                    pdocAuthDesc.innerHTML = '선생님께서 알려주신 <strong>비밀번호를 입력</strong>하면 잠금이 풀리고 첨부파일을 다운로드할 수 있습니다.';
+                }
             }
 
             renderAll();
@@ -1442,6 +1656,7 @@
             if (tabId === 'highschool-docs') renderHighschoolMaterials();
             if (tabId === 'roles') renderRoles();
             if (tabId === 'traits') renderTraitsTable();
+            if (tabId === 'private-docs') renderPrivateDocs();
             if (tabId === 'secret-notes') renderSecretNotes();
         }
 
@@ -1477,6 +1692,7 @@
                             if (Array.isArray(data.roles)) state.roles = data.roles;
                             if (Array.isArray(data.schedules)) state.schedules = data.schedules;
                             if (Array.isArray(data.secretNotes)) state.secretNotes = data.secretNotes;
+                            if (Array.isArray(data.privateDeliveries)) state.privateDeliveries = data.privateDeliveries;
                             renderAll();
                             updateSyncBadge('online');
                         }
@@ -1506,6 +1722,7 @@
                     roles: state.roles,
                     schedules: state.schedules,
                     secretNotes: state.secretNotes,
+                    privateDeliveries: state.privateDeliveries,
                     updatedAt: new Date().toISOString()
                 });
                 updateSyncBadge('online');
@@ -2307,7 +2524,6 @@
             const files = Array.from(e.target.files || []);
             if (files.length === 0) return;
 
-            pendingNoticeFiles = [];
             const previewBox = document.getElementById('notice-files-preview-box');
             if (previewBox) {
                 previewBox.innerHTML = '';
@@ -2342,7 +2558,7 @@
                     if (isImage) {
                         const img = document.createElement('img');
                         img.src = fileDataUrl;
-                        img.className = "w-16 h-16 object-cover rounded-lg border border-slate-200 shadow-2xs";
+                        img.className = "w-14 h-14 object-cover rounded-lg border border-slate-200 shadow-2xs";
                         previewBox.appendChild(img);
                     } else {
                         const tag = document.createElement('span');
@@ -2355,7 +2571,7 @@
 
             const infoEl = document.getElementById('notice-file-preview-info');
             const clearBtn = document.getElementById('notice-file-clear-btn');
-            if (infoEl) infoEl.innerText = `${files.length}개 파일 선택됨`;
+            if (infoEl) infoEl.innerText = `${pendingNoticeFiles.length}개 파일 선택됨`;
             if (clearBtn) clearBtn.classList.remove('hidden');
         }
 
@@ -2402,7 +2618,13 @@
                     size: sizeStr
                 });
             }
+            updateEditNoticeFilesPreview();
+        }
 
+        function clearEditNoticeFile() {
+            pendingEditNoticeFiles = [];
+            const input = document.getElementById('edit-notice-file');
+            if (input) input.value = '';
             updateEditNoticeFilesPreview();
         }
 
@@ -2421,7 +2643,7 @@
                         if (f.type === 'image' && f.dataUrl && f.dataUrl !== '#') {
                             const img = document.createElement('img');
                             img.src = f.dataUrl;
-                            img.className = "w-16 h-16 object-cover rounded-lg border border-slate-200 shadow-2xs";
+                            img.className = "w-14 h-14 object-cover rounded-lg border border-slate-200 shadow-2xs";
                             previewBox.appendChild(img);
                         } else {
                             const tag = document.createElement('span');
@@ -2432,22 +2654,12 @@
                     });
                 }
             } else {
-                clearEditNoticeFile();
-            }
-        }
-
-        function clearEditNoticeFile() {
-            pendingEditNoticeFiles = [];
-            const input = document.getElementById('edit-notice-file');
-            if (input) input.value = '';
-            const infoEl = document.getElementById('edit-notice-file-preview-info');
-            const clearBtn = document.getElementById('edit-notice-file-clear-btn');
-            const previewBox = document.getElementById('edit-notice-files-preview-box');
-            if (infoEl) infoEl.innerText = '첨부 없음';
-            if (clearBtn) clearBtn.classList.add('hidden');
-            if (previewBox) {
-                previewBox.innerHTML = '';
-                previewBox.classList.add('hidden');
+                if (infoEl) infoEl.innerText = '선택된 파일 없음';
+                if (clearBtn) clearBtn.classList.add('hidden');
+                if (previewBox) {
+                    previewBox.innerHTML = '';
+                    previewBox.classList.add('hidden');
+                }
             }
         }
 
@@ -2537,7 +2749,9 @@
 
                             ${fileList.length > 0 ? `
                                 <div class="mt-3 space-y-1.5 pt-2 border-t border-slate-100">
-                                    <p class="text-[10px] font-bold text-slate-400">첨부 파일 (${fileList.length}개)</p>
+                                    <p class="text-[10px] font-bold text-slate-400 flex items-center justify-between">
+                                        <span>첨부 파일 (${fileList.length}개)</span>
+                                    </p>
                                     <div class="space-y-1">${fileButtonsHtml}</div>
                                 </div>
                             ` : ''}
@@ -2641,7 +2855,7 @@
                 id: Date.now(),
                 category: category,
                 title: title,
-                desc: desc || '307 학급 서식 자료입니다.',
+                desc: desc || '307 학급 공통 서식 및 안내 자료입니다.',
                 date: new Date().toISOString().split('T')[0],
                 uploader: state.currentUser.name || '담임선생님',
                 files: filesToSave
@@ -2664,6 +2878,329 @@
             state.teacherMaterials = state.teacherMaterials.filter(m => Number(m.id) !== targetId);
             renderTeacherMaterials();
             showToast(`"${title}" 서식이 삭제되었습니다.`, 'info');
+            await saveToCloud();
+        }
+
+        let pendingPrivateDocFiles = [];
+
+        function renderPrivateDocs() {
+            const container = document.getElementById('private-docs-grid');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const isTeacher = state.currentUser.role === 'teacher';
+            const searchInput = (document.getElementById('pdoc-search-input')?.value || '').toLowerCase();
+
+            let list = state.privateDeliveries;
+            if (!isTeacher) {
+                list = list.filter(d => d.targetStudentId === state.currentUser.studentId || d.targetStudentName === state.currentUser.name);
+            }
+
+            if (state.currentPdocFilter !== '전체') {
+                list = list.filter(d => d.category === state.currentPdocFilter);
+            }
+
+            if (searchInput) {
+                list = list.filter(d => d.title.toLowerCase().includes(searchInput) || 
+                                       d.targetStudentName.toLowerCase().includes(searchInput) ||
+                                       (d.memo && d.memo.toLowerCase().includes(searchInput)));
+            }
+
+            const badgeCount = document.getElementById('private-docs-badge');
+            if (badgeCount) badgeCount.textContent = `${list.length}건`;
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full bg-white p-12 rounded-2xl border border-dashed border-amber-300 text-center text-slate-400 text-xs">
+                        <span class="text-3xl block mb-2">🔐</span>
+                        ${isTeacher ? '등록된 비밀 배부 문서가 없습니다. [+ 새 비밀 배부 문서 등록] 버튼으로 학생에게 전송하세요.' : '현재 배부된 비밀 문서가 없습니다.'}
+                    </div>
+                `;
+                return;
+            }
+
+            const catBadgeStyles = {
+                '성적/평가': 'bg-rose-50 text-rose-700 border-rose-200',
+                '진학/추천서': 'bg-indigo-50 text-indigo-700 border-indigo-200',
+                '상담/소견서': 'bg-sky-50 text-sky-700 border-sky-200',
+                '기타/개별서류': 'bg-amber-50 text-amber-800 border-amber-200'
+            };
+
+            list.forEach(d => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-amber-200/90 shadow-xs flex flex-col justify-between hover:shadow-md hover:border-amber-300 transition-all";
+
+                const isUnlocked = isTeacher || !!state.unlockedDeliveries[d.id];
+                const fileList = Array.isArray(d.files) ? d.files : [];
+
+                let contentHtml = '';
+                if (isUnlocked) {
+                    let filesHtml = fileList.map(f => {
+                        const ext = (f.name.split('.').pop() || 'FILE').toUpperCase();
+                        const isImg = f.type === 'image';
+                        return `
+                            <div class="flex items-center justify-between p-2 rounded-xl bg-amber-50/60 border border-amber-200/80 transition-colors">
+                                <div class="flex items-center gap-2 min-w-0 pr-2">
+                                    <span class="w-6 h-6 rounded-md ${isImg ? 'bg-amber-200 text-amber-900' : 'bg-slate-200 text-slate-800'} flex items-center justify-center font-black text-[9px] flex-shrink-0">
+                                        ${ext.slice(0,4)}
+                                    </span>
+                                    <div class="truncate">
+                                        <p class="text-xs font-bold text-slate-800 truncate" title="${f.name}">${f.name}</p>
+                                        <p class="text-[10px] text-slate-400">${f.size || '첨부문서'}</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="downloadOrOpenFile('${f.name}', '${f.dataUrl}')" class="px-2.5 py-1 bg-white hover:bg-slate-100 text-amber-800 border border-amber-300 rounded-lg text-xs font-bold flex-shrink-0 flex items-center gap-1 transition-colors shadow-2xs">
+                                    <span>${isImg ? '🔍' : '💾'}</span> ${isImg ? '보기' : '다운로드'}
+                                </button>
+                            </div>
+                        `;
+                    }).join('');
+
+                    contentHtml = `
+                        <div class="mt-3 p-3 bg-emerald-50/60 border border-emerald-200 rounded-xl space-y-2">
+                            <div class="flex items-center gap-1.5 text-emerald-800 font-bold text-xs">
+                                <span>🔓</span>
+                                <span>비밀번호 인증 완료 (열람 가능)</span>
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed whitespace-pre-line">${d.memo || '전달 안내문이 없습니다.'}</p>
+                            ${fileList.length > 0 ? `
+                                <div class="pt-2 border-t border-emerald-200/60 space-y-1.5">
+                                    <p class="text-[10px] font-bold text-slate-500">첨부 파일 (${fileList.length}개)</p>
+                                    <div class="space-y-1">${filesHtml}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                } else {
+                    contentHtml = `
+                        <div class="mt-3 p-4 bg-slate-50 border border-slate-200 rounded-xl text-center space-y-2.5">
+                            <div class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-amber-100 text-amber-700 font-bold text-sm">
+                                🔒
+                            </div>
+                            <div>
+                                <p class="text-xs font-extrabold text-slate-800">문서가 비밀번호로 잠겨 있습니다</p>
+                                <p class="text-[11px] text-slate-400 mt-0.5">선생님께 전달받은 비밀번호를 입력해야 열람할 수 있습니다.</p>
+                            </div>
+                            <button type="button" onclick="openUnlockPrivateDocModal(${d.id})" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5 mx-auto">
+                                <span>🔑</span> 비밀번호 풀고 열기
+                            </button>
+                        </div>
+                    `;
+                }
+
+                let teacherControlHtml = '';
+                if (isTeacher) {
+                    teacherControlHtml = `
+                        <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 text-amber-900 rounded font-mono font-bold text-[11px]">
+                                🔑 설정 암호: <strong>${d.password}</strong>
+                            </span>
+                            <button type="button" onclick="deletePrivateDoc(${d.id})" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded-lg transition-colors flex items-center gap-1 text-xs">
+                                <span>🗑️</span> 배부 취소(삭제)
+                            </button>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold border ${catBadgeStyles[d.category] || 'bg-slate-100 text-slate-700 border-slate-200'}">
+                                ${d.category}
+                            </span>
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">
+                                    🧑‍🎓 수신: ${d.targetStudentName}
+                                </span>
+                                <span class="text-[11px] text-slate-400 font-medium">${d.date}</span>
+                            </div>
+                        </div>
+                        <h3 class="text-base font-extrabold text-slate-800 mb-1 leading-snug">${d.title}</h3>
+                        ${contentHtml}
+                    </div>
+                    ${teacherControlHtml}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterPrivateDocs(cat) {
+            state.currentPdocFilter = cat;
+            document.querySelectorAll('.pdoc-filter-btn').forEach(btn => {
+                if (btn.innerText.includes(cat) || (cat === '전체' && btn.innerText.includes('전체'))) {
+                    btn.className = "pdoc-filter-btn active px-3 py-1 text-xs rounded-lg font-bold bg-slate-800 text-white";
+                } else {
+                    btn.className = "pdoc-filter-btn px-3 py-1 text-xs rounded-lg font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200";
+                }
+            });
+            renderPrivateDocs();
+        }
+
+        function openCreatePrivateDocModal() {
+            if (state.currentUser.role !== 'teacher') {
+                showToast('비밀 배부는 담임선생님만 가능합니다.', 'error');
+                return;
+            }
+
+            const select = document.getElementById('new-pdoc-student');
+            if (select) {
+                select.innerHTML = state.students.map(s => `<option value="${s.studentId}|${s.name}">${s.no}번 ${s.name} (${s.studentId})</option>`).join('');
+            }
+
+            pendingPrivateDocFiles = [];
+            const infoEl = document.getElementById('pdoc-file-preview-info');
+            const fileInput = document.getElementById('new-pdoc-file');
+            const previewBox = document.getElementById('pdoc-files-preview-box');
+            if (infoEl) infoEl.innerText = '선택된 파일이 없습니다 (다중 첨부 가능)';
+            if (fileInput) fileInput.value = '';
+            if (previewBox) previewBox.innerHTML = '';
+            
+            generateRandomPin();
+            openModal('create-private-doc-modal');
+        }
+
+        function generateRandomPin() {
+            const pin = Math.floor(1000 + Math.random() * 9000).toString();
+            const input = document.getElementById('new-pdoc-password');
+            if (input) input.value = pin;
+        }
+
+        async function handlePrivateDocFileSelect(e) {
+            const files = Array.from(e.target.files || []);
+            if (files.length === 0) return;
+
+            pendingPrivateDocFiles = [];
+            const previewBox = document.getElementById('pdoc-files-preview-box');
+            if (previewBox) previewBox.innerHTML = '';
+
+            for (const file of files) {
+                const isImage = file.type.startsWith('image/');
+                const sizeStr = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                
+                const fileDataUrl = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = async (ev) => {
+                        if (isImage) {
+                            const compressed = await compressImageData(ev.target.result, 640, 0.65);
+                            resolve(compressed);
+                        } else {
+                            resolve(ev.target.result.slice(0, 100) === 'data:' ? ev.target.result.slice(0, 2048) : '#');
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+
+                pendingPrivateDocFiles.push({
+                    name: file.name,
+                    type: isImage ? 'image' : 'doc',
+                    dataUrl: fileDataUrl,
+                    size: sizeStr
+                });
+
+                if (previewBox) {
+                    const chip = document.createElement('span');
+                    chip.className = "inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-lg bg-amber-100 text-amber-800 border border-amber-200 truncate max-w-[200px]";
+                    chip.innerText = `${isImage ? '🖼️' : '📄'} ${file.name}`;
+                    previewBox.appendChild(chip);
+                }
+            }
+
+            const infoEl = document.getElementById('pdoc-file-preview-info');
+            if (infoEl) {
+                infoEl.innerText = `총 ${files.length}개 파일이 선택되었습니다.`;
+                infoEl.className = "text-[11px] text-amber-800 font-bold mt-1.5";
+            }
+        }
+
+        async function handleCreatePrivateDoc(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            if (state.currentUser.role !== 'teacher') return;
+
+            const category = document.getElementById('new-pdoc-category').value;
+            const [studentId, studentName] = document.getElementById('new-pdoc-student').value.split('|');
+            const title = document.getElementById('new-pdoc-title').value.trim();
+            const password = document.getElementById('new-pdoc-password').value.trim();
+            const memo = document.getElementById('new-pdoc-memo').value.trim();
+
+            if (!password) {
+                showToast('열람 비밀번호를 설정해 주세요.', 'error');
+                return;
+            }
+
+            const filesToSave = pendingPrivateDocFiles.length > 0 ? [...pendingPrivateDocFiles] : [];
+
+            const newDelivery = {
+                id: Date.now(),
+                targetStudentId: studentId,
+                targetStudentName: studentName,
+                category: category,
+                title: title,
+                password: password,
+                memo: memo,
+                date: new Date().toISOString().split('T')[0],
+                uploader: '담임선생님',
+                files: filesToSave
+            };
+
+            state.privateDeliveries.unshift(newDelivery);
+            renderPrivateDocs();
+            closeModal('create-private-doc-modal');
+            e.target.reset();
+            pendingPrivateDocFiles = [];
+            showToast(`${studentName} 학생에게 비밀 문서(암호: ${password})가 배부되었습니다.`, 'success');
+            await saveToCloud();
+        }
+
+        function openUnlockPrivateDocModal(id) {
+            const target = state.privateDeliveries.find(d => d.id === id);
+            if (!target) return;
+
+            document.getElementById('unlock-target-id').value = target.id;
+            document.getElementById('unlock-modal-title').innerText = target.title;
+            const pwdInput = document.getElementById('unlock-password-input');
+            const errEl = document.getElementById('unlock-error-msg');
+            if (pwdInput) pwdInput.value = '';
+            if (errEl) errEl.classList.add('hidden');
+
+            openModal('unlock-private-doc-modal');
+            setTimeout(() => pwdInput?.focus(), 150);
+        }
+
+        function handleUnlockPrivateDoc(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const id = Number(document.getElementById('unlock-target-id').value);
+            const inputPwd = document.getElementById('unlock-password-input').value.trim();
+            const errEl = document.getElementById('unlock-error-msg');
+
+            const target = state.privateDeliveries.find(d => d.id === id);
+            if (!target) return;
+
+            if (target.password === inputPwd) {
+                state.unlockedDeliveries[id] = true;
+                closeModal('unlock-private-doc-modal');
+                renderPrivateDocs();
+                showToast('비밀번호가 일치하여 잠금이 해제되었습니다!', 'success');
+            } else {
+                if (errEl) errEl.classList.remove('hidden');
+                document.getElementById('unlock-password-input').value = '';
+                document.getElementById('unlock-password-input').focus();
+            }
+        }
+
+        async function deletePrivateDoc(id) {
+            if (state.currentUser.role !== 'teacher') {
+                showToast('삭제 권한이 없습니다.', 'error');
+                return;
+            }
+
+            const targetId = Number(id);
+            const target = state.privateDeliveries.find(d => d.id === targetId);
+            const title = target ? target.title : '비밀 문서';
+
+            state.privateDeliveries = state.privateDeliveries.filter(d => d.id !== targetId);
+            delete state.unlockedDeliveries[targetId];
+            renderPrivateDocs();
+            showToast(`"${title}" 배부 문서가 삭제되었습니다.`, 'info');
             await saveToCloud();
         }
 
@@ -3545,10 +4082,21 @@
             renderHighschoolMaterials();
             renderRoles();
             renderTraitsTable();
+            renderPrivateDocs();
             renderSecretNotes();
             updateScheduleSelectOptions();
             populateLoginDropdown();
         }
+
+        window.renderPrivateDocs = renderPrivateDocs;
+        window.filterPrivateDocs = filterPrivateDocs;
+        window.openCreatePrivateDocModal = openCreatePrivateDocModal;
+        window.generateRandomPin = generateRandomPin;
+        window.handlePrivateDocFileSelect = handlePrivateDocFileSelect;
+        window.handleCreatePrivateDoc = handleCreatePrivateDoc;
+        window.openUnlockPrivateDocModal = openUnlockPrivateDocModal;
+        window.handleUnlockPrivateDoc = handleUnlockPrivateDoc;
+        window.deletePrivateDoc = deletePrivateDoc;
 
         // 전역 바인딩 (인라인 onclick 이벤트와의 100% 안전 연동)
         window.openModal = openModal;
